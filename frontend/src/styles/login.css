@@ -1,0 +1,67 @@
+*{
+    margin: 0px;
+    padding: 0px;
+    box-sizing: border-box;
+}
+
+div.container{
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: rgb(105,160,226);
+    background: linear-gradient(53deg, rgba(105,160,226,1) 0%, rgba(68,89,203,1) 80%);
+}
+
+div.container > section{
+    background-color: white;
+    width: 350px;
+    height: 370px;
+    box-shadow: -5px 15px 14px 0px rgba(0, 0, 0, 25%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15%;
+}
+
+div.container > section > h2{
+    background: linear-gradient(to right, #4953ab, #2d70e0); /* Defina o gradiente */
+    -webkit-background-clip: text; /* Clipa o fundo no texto */
+    -webkit-text-fill-color: transparent; /* Faz o texto ficar transparente para mostrar o gradiente */
+    background-clip: text;
+    margin-top: 50px;
+}
+
+div.container > section > form#form-login{
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+div.container > section > form#form-login > input{
+    width: 250px;
+    height: 40px;
+    padding: 10px;
+    border: 1px solid #DAE5FE;
+    border-radius: 5px;
+    transition: border-color 0.3s ease;
+}
+
+div.container > section > form#form-login > input:focus{
+    outline: none; /* Remove a borda padrão do navegador */
+    border: 2px solid #9EB7E8;
+}
+
+.container > section > form#form-login > input::placeholder{
+    color: #DAE5FE;
+}
+
+div.container > section > form#form-login > button{
+    height: 35px;
+    border-radius: 15px;
+    border: 0cap solid;
+    background: rgb(73,83,171);
+    background: linear-gradient(90deg, rgba(45,112,224,1) 0%, rgba(73,83,171,1) 100%);
+    color: white;
+    margin-top: 20px;
+}
