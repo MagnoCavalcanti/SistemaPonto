@@ -4,7 +4,7 @@ from sqlalchemy import engine_from_config
 from sqlalchemy import pool
 
 from alembic import context
-from decouple import config as settings
+from decouple import config as decouple_config
 
 import os
 import sys
@@ -12,12 +12,12 @@ import sys
 absolut_path = os.path.abspath(os.curdir)
 sys.path.insert(0, absolut_path)
 
-from backend.models.base import Base
+from backend.models.user import Base
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
 config = context.config
-config.get_main_option('sqlalchemy.url', settings('DB_URL'))
+config.set_main_option('sqlalchemy.url', decouple_config('DB_URL'))
 
 # Interpret the config file for Python logging.
 # This line sets up loggers basically.

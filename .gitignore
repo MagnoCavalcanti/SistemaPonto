@@ -4,3 +4,4 @@ venv/
 **/.vscode
 config/
 /.env
+auth_test.py
