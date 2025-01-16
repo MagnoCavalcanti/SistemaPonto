@@ -12,7 +12,7 @@ import sys
 absolut_path = os.path.abspath(os.curdir)
 sys.path.insert(0, absolut_path)
 
-from backend.models.user import Base
+from backend.models import Base
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.

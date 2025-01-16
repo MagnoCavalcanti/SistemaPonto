@@ -12,8 +12,8 @@ import sys
 absolut_path = os.path.abspath(os.curdir)
 sys.path.insert(0, absolut_path)
 
-from backend.schemas.user import User
-from backend.models.user import UserModel
+from backend.schemas import User
+from backend.models import UserModel
 
 SECRET_KEY = config("SECRET_KEY")
 ALGORITHM = config("ALGORITHM")
