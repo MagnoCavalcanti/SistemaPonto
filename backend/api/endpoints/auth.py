@@ -1,6 +1,7 @@
 from fastapi import APIRouter, Depends, status
 from fastapi.responses import JSONResponse
 from sqlalchemy.orm import Session
+from fastapi.security import OAuth2PasswordRequestForm
 
 
 import os
@@ -23,3 +24,26 @@ def RegistrarUsuario(user: User, db: Session = Depends(get_db_session)):
         content={'msg': 'success'},
         status_code=status.HTTP_201_CREATED
     )
+
+@auth_router.post("/login")
+def LoginUsuario(
+    request_form_user: OAuth2PasswordRequestForm = Depends(), 
+    db: Session = Depends(get_db_session)
+    ):
+    
+    login = UserUseCases(dbsession=db)
+    user = User(
+        username=request_form_user.username,
+        password=request_form_user.password,
+    )
+
+    data_auth = login.login_user(user=user)
+
+    return JSONResponse(
+        content=data_auth,
+        status_code=status.HTTP_200_OK
+    )
+    
+
+    
+        

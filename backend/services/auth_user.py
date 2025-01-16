@@ -1,6 +1,10 @@
 from sqlalchemy.orm import Session
 from sqlalchemy.exc import IntegrityError
 from fastapi import status, HTTPException
+from passlib.context import CryptContext
+from jose import jwt, JWTError
+from decouple import config
+from datetime import datetime, timedelta, timezone
 
 import os
 import sys
@@ -10,6 +14,10 @@ sys.path.insert(0, absolut_path)
 
 from backend.schemas.user import User
 from backend.models.user import UserModel
+
+SECRET_KEY = config("SECRET_KEY")
+ALGORITHM = config("ALGORITHM")
+crypt_context = CryptContext(schemes=['sha256_crypt'])
 
 class UserUseCases:
 
@@ -22,7 +30,7 @@ class UserUseCases:
     def register_user(self, user: User):
         user_model = UserModel(
             username= user.username,
-            password= user.password,
+            password= crypt_context.hash(user.password),
             email= user.email 
         )
         try:
@@ -34,6 +42,34 @@ class UserUseCases:
                 detail='Usuário já existente!'
             )
         
+    def login_user(self, user: User, expira_em: int = 30):
+        user_db = self.dbsession.query(UserModel).filter_by(username=user.username).first()
+
+        if user_db is None:
+            raise HTTPException(
+                status_code=status.HTTP_401_UNAUTHORIZED,
+                detail='Invalid username or password'
+            )
+        
+        if not crypt_context.verify(user.password, user_db.password):
+            raise HTTPException(
+                status_code=status.HTTP_401_UNAUTHORIZED,
+                detail='Invalid username or password'
+            )
+        
+        exp = datetime.now(timezone.utc) + timedelta(minutes=expira_em)
+        
+        payload = {
+            "sub": user.username,
+            "exp": exp
+        }
+
+        token_de_acesso = jwt.encode(payload, SECRET_KEY, algorithm=ALGORITHM)
+
+        return {
+            "token": token_de_acesso,
+            "exp": exp.isoformat()
+        }
     
 
             
