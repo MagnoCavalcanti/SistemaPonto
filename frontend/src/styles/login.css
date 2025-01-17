@@ -13,7 +13,7 @@ div.container{
     background: linear-gradient(53deg, rgba(105,160,226,1) 0%, rgba(68,89,203,1) 80%);
 }
 
-div.container > section{
+div.container > section.boxLogin{
     background-color: white;
     width: 350px;
     height: 370px;
@@ -22,6 +22,10 @@ div.container > section{
     flex-direction: column;
     align-items: center;
     gap: 15%;
+}
+
+div.container > section.error{
+    gap: 2.4%;
 }
 
 div.container > section > h2{
@@ -36,6 +40,7 @@ div.container > section > form#form-login{
     display: flex;
     flex-direction: column;
     gap: 8px;
+    
 }
 
 div.container > section > form#form-login > input{
@@ -64,4 +69,16 @@ div.container > section > form#form-login > button{
     background: linear-gradient(90deg, rgba(45,112,224,1) 0%, rgba(73,83,171,1) 100%);
     color: white;
     margin-top: 20px;
+}
+
+div.container > section > p.errorMensage{
+    padding: 4px;
+    margin: 5px;
+    background-color: #f8d7da;
+    border: 1px solid #f5c6cb;
+    border-radius: 5px;
+    color: red;
+    font-weight: bold;
+    text-align: center;
+    width: 90%;
 }

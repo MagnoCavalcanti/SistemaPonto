@@ -48,13 +48,13 @@ class UserUseCases:
         if user_db is None:
             raise HTTPException(
                 status_code=status.HTTP_401_UNAUTHORIZED,
-                detail='Invalid username or password'
+                detail='Login inválido!'
             )
         
         if not crypt_context.verify(user.password, user_db.password):
             raise HTTPException(
                 status_code=status.HTTP_401_UNAUTHORIZED,
-                detail='Invalid username or password'
+                detail='Login inválido!'
             )
         
         exp = datetime.now(timezone.utc) + timedelta(minutes=expira_em)
