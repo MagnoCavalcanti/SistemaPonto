@@ -8,29 +8,26 @@ services:
     volumes:
       - C:/containers/database/pontoeletronico/mysql:/app/data/mysql
     env_file:
-      - ./config/.env
+      - ./.env
     ports:
       - 3030:3306
   
   backend:
-    image: python:3.11
+    build:
+      context: .
+      dockerfile: Dockerfile.backend
     restart: always
     container_name: backend
     volumes:
       - C:/containers/backend/pontoeletronico/python:/app/data/python
     env_file:
-      - ./config/.env
+      - ./.env
     ports:
-      - 8888:8888
+      - 8888:8080
+    depends_on:
+      - db
   
-  frontend:
-    image: node:22.12
-    restart: always
-    container_name: frontend
-    volumes:
-      - C:/containers/frontend/pontoeletronico/node:/app/data/node
-    env_file:
-      - ./config/.env
-    ports:
-      - 8080:8080
+
     
+ 
+  
