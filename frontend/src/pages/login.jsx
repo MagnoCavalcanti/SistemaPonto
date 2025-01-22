@@ -32,15 +32,21 @@ function Login(){
 
             
 
-            const response = await axios.post("http://127.0.0.1:8000/login", formData, { //envia para a minha API
+            const response = await axios.post("http://localhost:8888/login", formData, { //envia para a minha API que retorna um token
                 
                     headers: {  
                         "Content-Type": "application/x-www-form-urlencoded"
                     }
                 
             })
+
+            
+            const token = response.data
+            
+            localStorage.setItem("token", JSON.stringify(token));
+
         
-        history("/home");
+            history("/home");
         
         }catch (err) {
             //Em caso de erro, exibirá uma mensagem na tela

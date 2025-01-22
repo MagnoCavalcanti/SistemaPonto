@@ -1,0 +1,61 @@
+
+.sideBar{
+    height: 100%;
+    width: 40px;
+    overflow: hidden;
+}
+
+.navBar{
+    background-color: #515EA6;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 100%;
+    width: 100%;
+    gap: 130px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+#menu{
+    font-size: 30px;
+    color: white;
+}
+
+.botoes{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 284px;
+}
+
+.navigation{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    list-style-type: none;
+}
+
+#image{
+    font-size: 15px;
+    color: white;
+}
+
+.footerSideBar{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+}
+
+#perfil{
+    color: white;
+    font-size: 35px;
+}
+
+#exit{
+    color: white;
+    font-size: 20px;
+}
+
+
