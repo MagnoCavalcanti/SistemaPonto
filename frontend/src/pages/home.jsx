@@ -8,9 +8,22 @@ function Home(){
         <div className="background">
             <Barra_deNavegacao/>
             <section>
-                <div className="tabela">
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorum eius temporibus fuga quia tenetur nam omnis, culpa voluptas, officia voluptatem aliquam perferendis, ducimus illo cumque sunt. Sint neque fuga praesentium.
-                </div>
+                <table className="tabela">
+                    <thead>
+                        <th>Nome</th>
+                        <th>Matrícula</th>
+                        <th>CPF</th>
+                        <th>Pis</th>
+                        <th>Empresa</th>
+                    </thead>
+                    <tbody>
+                        <td>Magno</td>
+                        <td>2002034234091</td>
+                        <td>123.456.789-10</td>
+                        <td>34892344492192</td>
+                        <td>Apple inc.</td>
+                    </tbody>
+                </table>
             </section>
         </div>
     )
