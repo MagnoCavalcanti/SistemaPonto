@@ -1,2 +1,1 @@
-from .user import UserModel
-from .funcionario_model import Base
+from .models import Funcionario, Empresa, UserModel, Base

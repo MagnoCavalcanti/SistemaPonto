@@ -71,5 +71,3 @@ class UserUseCases:
             "exp": exp.isoformat()
         }
     
-
-            
