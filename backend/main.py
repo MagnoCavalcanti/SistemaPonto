@@ -1,8 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from .api.endpoints.auth import auth_router
-from .api.endpoints.empresas import empresa_router
+from .api import auth_router, empresa_router, funcio_router
 
 origins = "http://localhost:5173"
 
@@ -21,4 +20,5 @@ def home():
     return {'status': 'rodando'}
 
 app.include_router(auth_router)
+app.include_router(funcio_router)
 app.include_router(empresa_router)
