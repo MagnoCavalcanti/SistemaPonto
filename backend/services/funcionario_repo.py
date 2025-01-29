@@ -18,7 +18,7 @@ class FuncionarioRepo:
 
     
     def register_funcionario(self, funcionario:Funcionario):
-        empresa_model = Funcionario_models(
+        funcionario_model = Funcionario_models(
             nome=funcionario.nome,
             matricula=funcionario.matricula,
             pis=funcionario.pis,
@@ -29,10 +29,37 @@ class FuncionarioRepo:
         )
         
         try:
-            self.db.add(Funcionario_models)
+            self.db.add(funcionario_model)
             self.db.commit()
         except IntegrityError:
             raise HTTPException(
                 status_code=status.HTTP_400_BAD_REQUEST,
-                detail='Empresa já existente!'
+                detail='Funcionário já existente!'
+            )
+    def list_funcionario(self):
+        try:
+            funcionario_db = self.db.query(Funcionario_models).all()
+            
+            return funcionario_db
+        except IntegrityError:
+            raise HTTPException(
+                status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+                detail="Erro no servidor!"
+            )
+        
+    def update_funcionario(self, id_funcionario: int, value_update):
+        try:
+            self.db.query(Funcionario_models).filter_by(id=id_funcionario).update(value_update)
+            self.db.commit()
+        except IntegrityError:
+            self.db.rollback()
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail="Falha na atualização! Verifique se os dados são válidos."
+            )
+        except Exception as e:
+            self.db.rollback()
+            raise HTTPException(
+                status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+                detail=f"Erro interno: {e}"
             )
