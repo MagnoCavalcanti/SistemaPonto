@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from .api import auth_router, empresa_router, funcio_router
+from .api import auth_router, empresa_router, funcio_router, ponto_router
 
 origins = "http://localhost:5173"
 
@@ -22,3 +22,4 @@ def home():
 app.include_router(auth_router)
 app.include_router(funcio_router)
 app.include_router(empresa_router)
+app.include_router(ponto_router)

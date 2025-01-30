@@ -10,3 +10,6 @@ class Funcionario(BaseModel):
     grupo: str
     cpf: str
     
+    class Config:
+        orm_mode = True
+
