@@ -11,7 +11,7 @@ absolut_path = os.path.abspath(os.curdir)
 sys.path.insert(0, absolut_path)
 
 from backend.schemas.user import User
-from backend.database.seed_data import get_db_session
+from backend.database.seed_data import get_db_session, get_current_user
 from backend.services.auth_user import UserUseCases
 
 auth_router = APIRouter()
@@ -43,6 +43,10 @@ def LoginUsuario(
         content=data_auth,
         status_code=status.HTTP_200_OK
     )
+
+@auth_router.get("/protected-route")
+def protected_route(current_user: dict = Depends(get_current_user)):
+    return {"message": "You are authenticated", "user": current_user}
     
 
     

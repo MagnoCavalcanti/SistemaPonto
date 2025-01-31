@@ -44,7 +44,7 @@ function Login(){
             const token = response.data
             
             localStorage.setItem("token", JSON.stringify(token));
-
+            //console.log(localStorage.getItem("token"))
         
             history("/home");
         

@@ -67,7 +67,23 @@ class UserUseCases:
         token_de_acesso = jwt.encode(payload, SECRET_KEY, algorithm=ALGORITHM)
 
         return {
-            "token": token_de_acesso,
-            "exp": exp.isoformat()
+            "access_token": token_de_acesso,  # Mudança para "access_token"
+            "token_type": "bearer",          # Adicionando "token_type"
+            "exp": exp.isoformat("T")        # Adicionando "exp"
         }
-    
+    def verify_token(self, token: str):
+        try:
+            data = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
+            user_on_db = self.dbsession.query(UserModel).filter_by(username=data['sub']).first()
+
+            if user_on_db is None:
+                raise HTTPException(
+                    status_code=status.HTTP_401_UNAUTHORIZED,
+                    detail='Token inválido'
+                )
+            return data
+        except JWTError:
+            raise HTTPException(
+                status_code=status.HTTP_401_UNAUTHORIZED,
+                detail='Token inválido'
+            )
