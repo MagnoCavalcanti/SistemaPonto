@@ -13,26 +13,10 @@ body, html{
 div.background {
     display: flex;
     flex-direction: row;
+    gap: 10px;
 }
 
-div.background > section > div.header-dashboard{
-    display: flex;
-    flex-direction: row;
-    gap: 30px;
-    margin: 70px  20px 10px;
-}
 
-div.background > section > div.header-dashboard > span{
-    background-color: #515EA6;
-    color: white;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    padding: 5px;
-    height: auto;
-    border-radius: 3px;
-    cursor: pointer;
-}
 
 div.background > section > table.tabela {
     background-color: white;

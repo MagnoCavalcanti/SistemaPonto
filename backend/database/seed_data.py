@@ -15,7 +15,7 @@ from backend.services.auth_user import UserUseCases
 
 SECRET_KEY = config("SECRET_KEY")
 ALGORITHM = config("ALGORITHM")
-oauth2_scheme = OAuth2PasswordBearer(tokenUrl="http://localhost:8000/login")  # Define o esquema de autenticação
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl="http://127.0.0.1:8000/login")  # Define o esquema de autenticação
 
 def get_db_session():
     try:
