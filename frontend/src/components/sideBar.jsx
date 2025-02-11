@@ -1,6 +1,5 @@
-import styles from "../styles/modules/sideBar.module.css"
 import { Link, useNavigate } from "react-router-dom";
-import { Avatar, Box, Drawer, Icon, List, ListItem, ListItemIcon} from '@mui/material'
+import { Avatar, Box, Drawer, Icon, List, ListItem, ListItemIcon, Tooltip} from '@mui/material'
 import { useState } from "react";
 
 import { ItemSideBar } from "./ItemSideBar";
@@ -44,10 +43,10 @@ function Barra_deNavegacao({location}){
       <Box sx={{ display: "flex", flexDirection: "column", alignItems: "center", height: "100%", width: "100%", py: 2 }}>
         <List sx={{ width: "100%", marginTop: 8}}>
     
-          <ItemSideBar icon="group" to="/home" location={location}/>
-          <ItemSideBar icon="business" to="" location={location}/>
-          <ItemSideBar icon="bar_chart" to="/espelho_ponto" location={location}/>
-          <ItemSideBar icon="calendar_month" to="" location={location}/>
+          <ItemSideBar icon="group" to="/home" location={location} pageName="Funcionários" />
+          <ItemSideBar icon="business" to="" location={location} pageName="Empresas" />
+          <ItemSideBar icon="bar_chart" to="/espelho_ponto" location={location} pageName="Espelho Ponto" />
+          <ItemSideBar icon="calendar_month" to="" location={location} pageName="Agenda" />
           
         </List>
 
@@ -62,7 +61,7 @@ function Barra_deNavegacao({location}){
 
           <ListItem button={true} onClick={handleLogOut} sx={{ justifyContent: "center", py: 1, cursor: "pointer"}}>
             <ListItemIcon sx={{ color: "white", minWidth: "auto" }}>
-              <Icon sx={{ fontSize: 23}}>exit_to_app</Icon>
+              <Tooltip title="Sair"><Icon sx={{ fontSize: 23}}>exit_to_app</Icon></Tooltip>
             </ListItemIcon>
           </ListItem>
         </List>
