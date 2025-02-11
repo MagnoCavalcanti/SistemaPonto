@@ -19,11 +19,25 @@ export const ItemSideBar = ({icon, to, location, pageName}) => {
       }
 
       return(
-        <ListItem component={Link} to={to} button={true} sx={{ justifyContent: "center", py: 1, "&::before": isActive? ativado : {}}}>
-            <ListItemIcon sx={{ color: "white", minWidth: "auto" }}>
-              <Tooltip title={pageName}><Icon>{icon}</Icon></Tooltip>
+        <Tooltip title={pageName} placement="right">
+          <ListItem 
+          component={Link}
+          to={to}
+          button={true} 
+          sx={{ 
+            justifyContent: "center", 
+            py: 1, 
+            "&::before": isActive? ativado : {}
+            }}>
+            <ListItemIcon 
+            sx={{ 
+              color: "white", 
+              minWidth: "auto" 
+              }}>
+              <Icon>{icon}</Icon>
             </ListItemIcon>
-        </ListItem>
+          </ListItem>
+        </Tooltip>
       )
 }
 
