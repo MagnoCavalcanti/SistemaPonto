@@ -1,10 +1,24 @@
 import styles from "../styles/modules/sideBar.module.css"
 import { Link, useNavigate } from "react-router-dom";
 import { Avatar, Box, Drawer, Icon, List, ListItem, ListItemIcon} from '@mui/material'
+import { useState } from "react";
+
+import { ItemSideBar } from "./ItemSideBar";
 
 
-function Barra_deNavegacao(){
+function Barra_deNavegacao({location}){
     const navigate = useNavigate();
+    const ativado = {
+      content: '""',
+      position: "absolute",
+      left: 0,
+      top: "10%",
+      height: "80%",
+      width: "4px",
+      backgroundColor: "white",
+      borderRadius: "0px 4px 4px 0px",
+    }
+    
 
     const handleLogOut = () => {
         localStorage.removeItem("token");
@@ -27,32 +41,14 @@ function Barra_deNavegacao(){
         },
       }}
     >
-      <Box sx={{ display: "flex", flexDirection: "column", alignItems: "center", height: "100%", py: 2 }}>
+      <Box sx={{ display: "flex", flexDirection: "column", alignItems: "center", height: "100%", width: "100%", py: 2 }}>
         <List sx={{ width: "100%", marginTop: 8}}>
     
-          <ListItem component={Link} to="" button={true} sx={{ justifyContent: "center", py: 1 }}>
-            <ListItemIcon sx={{ color: "white", minWidth: "auto" }}>
-              <Icon>group</Icon>
-            </ListItemIcon>
-          </ListItem>
-
-          <ListItem component={Link} to="" button={true} sx={{ justifyContent: "center", py: 1 }}>
-            <ListItemIcon sx={{ color: "white", minWidth: "auto" }}>
-              <Icon>business</Icon>
-            </ListItemIcon>
-          </ListItem>
-
-          <ListItem component={Link} to="/espelho_ponto" button={true} sx={{ justifyContent: "center", py: 1 }}>
-            <ListItemIcon sx={{ color: "white", minWidth: "auto" }}>
-              <Icon>bar_chart</Icon>
-            </ListItemIcon>
-          </ListItem>
-
-          <ListItem component={Link} to="" button sx={{ justifyContent: "center", py: 1 }}>
-            <ListItemIcon sx={{ color: "white", minWidth: "auto" }}>
-              <Icon>calendar_month</Icon>
-            </ListItemIcon>
-          </ListItem>
+          <ItemSideBar icon="group" to="/home" location={location}/>
+          <ItemSideBar icon="business" to="" location={location}/>
+          <ItemSideBar icon="bar_chart" to="/espelho_ponto" location={location}/>
+          <ItemSideBar icon="calendar_month" to="" location={location}/>
+          
         </List>
 
         <Box sx={{ flexGrow: 1 }} /> {/* Empurra os próximos itens para a parte inferior */}
@@ -64,7 +60,7 @@ function Barra_deNavegacao(){
             </ListItemIcon>
           </ListItem>
 
-          <ListItem button={true} onClick={handleLogOut} sx={{ justifyContent: "center", py: 1 }}>
+          <ListItem button={true} onClick={handleLogOut} sx={{ justifyContent: "center", py: 1, cursor: "pointer"}}>
             <ListItemIcon sx={{ color: "white", minWidth: "auto" }}>
               <Icon sx={{ fontSize: 23}}>exit_to_app</Icon>
             </ListItemIcon>
