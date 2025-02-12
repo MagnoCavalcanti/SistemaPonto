@@ -59,7 +59,7 @@ function Barra_deNavegacao({location}){
             </ListItemIcon>
           </ListItem>
 
-          <ListItem button={true} onClick={handleLogOut} sx={{ justifyContent: "center", py: 1, cursor: "pointer"}}>
+          <ListItem button="true" onClick={handleLogOut} sx={{ justifyContent: "center", py: 1, cursor: "pointer"}}>
             <ListItemIcon sx={{ color: "white", minWidth: "auto" }}>
               <Tooltip title="Sair"><Icon sx={{ fontSize: 23}}>exit_to_app</Icon></Tooltip>
             </ListItemIcon>

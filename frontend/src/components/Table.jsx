@@ -1,6 +1,7 @@
 import { Paper } from "@mui/material"
 import { DataGrid } from '@mui/x-data-grid';
 import { useState, useEffect } from 'react';
+//import CustomToolbar from "./CustomToolbar";
 
 const colunas = [
     { field: 'matrícula', headerName: 'Matrícula', width: 120 },
@@ -18,6 +19,18 @@ async function buscarFuncionarios() {
 
 export const Tabela = () => {
     const [funcionarios, setFuncionarios] = useState([]);
+    const [selectionModel, setSelectionModel] = useState([]);
+
+    const handleEdit = () => {
+        // Implementa a lógica de edição para as linhas selecionadas
+        console.log('Editar:', selectionModel);
+      };
+    
+      const handleDelete = async () => {
+        // Implementa a lógica de exclusão para as linhas selecionadas
+        await axios.delete(`http://localhost:8000/funcionarios/${selectionModel}`);
+        console.log('Excluir:', selectionModel);
+      };
 
     useEffect(() => {
         const carregarDados = async () => {
@@ -42,6 +55,26 @@ export const Tabela = () => {
             <DataGrid
                 rows={funcionarios}
                 columns={colunas}
+                checkboxSelection
+                initialState={{
+                    pagination: {
+                        paginationModel: { page: 0, pageSize: 5 },
+                    },
+                }}
+                pageSizeOptions={[5, 10, 25]}
+                paginationMode="server"
+                rowCount={funcionarios.length}
+                /*onRowSelectionModelChange={(selectionModel) => {
+                    console.log(selectionModel);
+                }}
+                components={{
+                    Toolbar: () => (
+                        <CustomToolbar
+                            selectedCount={selectionModel.length}
+                            onDelete={handleDelete}
+                        />
+                    )
+                }}*/
             />
         </Paper>
     )

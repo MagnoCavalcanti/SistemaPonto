@@ -23,7 +23,7 @@ export const ItemSideBar = ({icon, to, location, pageName}) => {
           <ListItem 
           component={Link}
           to={to}
-          button={true} 
+          button="true"
           sx={{ 
             justifyContent: "center", 
             py: 1, 

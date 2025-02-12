@@ -8,12 +8,13 @@ import { useState } from "react";
 import EmployeeModal from "../components/EmployeeModal";
 
 const inputFields = [
-    { label: 'Matrícula', type: 'number', required: true },
-    { label: 'Nome', type: 'text', required: true },
-    { label: 'CPF', type: 'text', required: true },
-    { label: 'Função', type: 'text', required: true },
-    { label: 'Empresa', type: 'text', required: true },
-    { label: 'Pis', type: 'number', required: true },
+    { label: 'Matrícula', type: 'number', required: true, nome: 'matricula' },
+    { label: 'Nome', type: 'text', required: true,  nome: 'nome' },,
+    { label: 'CPF', type: 'text', required: true, nome: 'cpf', length: 14 },
+    { label: 'Função', type: 'text', required: true, nome: 'funcao' },
+    { label: 'Empresa', type: 'number', required: true, nome: 'empresa_id' },
+    { label: 'Pis', type: 'number', required: true, nome: 'pis' },
+    { label: 'Grupo', type: 'text', required: true, nome: 'grupo' },
 ];
 
 function Home(){
