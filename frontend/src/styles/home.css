@@ -20,19 +20,10 @@ div.background > main > section.cabeçalho{
     display: flex;
     justify-content: space-between;
     margin: 30px 40px 30px ;
-}
-
-
-
-div.background > main > section.tabela_section > table.tabela {
-    background-color: white;
-    margin: 20px 30px;
-    border-radius: 5px;
     width: 1230px;
-    height: auto;
-    padding: 5px 10px;
-    list-style-type: none;
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-    white-space: nowrap; /* Impede a quebra de linha! */
 }
+
+
+
+
 

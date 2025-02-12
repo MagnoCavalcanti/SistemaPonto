@@ -25,7 +25,7 @@ class Funcionario(Base):
     empresa_id = Column(Integer, ForeignKey("empresas.id"), nullable=False)
     funcao= Column(String(100))
     grupo= Column(String(100))
-    cpf= Column(String(20), nullable=False, unique=True)
+    cpf= Column(String(20), nullable=False, unique=True)  
 
    
 

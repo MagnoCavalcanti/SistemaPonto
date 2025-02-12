@@ -1,8 +1,9 @@
 import { useLocation } from "react-router-dom";
 import Barra_deNavegacao from "../components/sideBar";
+import { Tabela } from "../components/Table";
 
 import "../styles/home.css"
-import { Fab, Grid2, Icon, Tooltip, Typography } from "@mui/material";
+import { Fab, Grid2, Icon, Paper, Tooltip, Typography } from "@mui/material";
 
 
 function Home(){
@@ -72,16 +73,7 @@ function Home(){
                         </Tooltip>
                     </Grid2>
                 </section>
-                <section className="tabela_section">
-                    <table className="tabela">
-                        <thead>
-                            
-                        </thead>
-                        <tbody>
-                            
-                        </tbody>
-                    </table>
-                </section>
+                <Tabela></Tabela>
             </main>
         </div>
     )
