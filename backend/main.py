@@ -21,6 +21,6 @@ def home():
     return {'status': 'rodando'}
 
 app.include_router(auth_router)
-app.include_router(funcio_router, dependencies=[Depends(get_current_user)])
+app.include_router(funcio_router, )
 app.include_router(empresa_router, dependencies=[Depends(get_current_user)])
 app.include_router(ponto_router, dependencies=[Depends(get_current_user)])

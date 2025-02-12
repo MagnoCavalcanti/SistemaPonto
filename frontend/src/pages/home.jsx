@@ -4,10 +4,29 @@ import { Tabela } from "../components/Table";
 
 import "../styles/home.css"
 import { Fab, Grid2, Icon, Paper, Tooltip, Typography } from "@mui/material";
+import { useState } from "react";
+import EmployeeModal from "../components/EmployeeModal";
 
+const inputFields = [
+    { label: 'Matrícula', type: 'number', required: true },
+    { label: 'Nome', type: 'text', required: true },
+    { label: 'CPF', type: 'text', required: true },
+    { label: 'Função', type: 'text', required: true },
+    { label: 'Empresa', type: 'text', required: true },
+    { label: 'Pis', type: 'number', required: true },
+];
 
 function Home(){
     const location = useLocation()
+    const [open, setOpen] = useState(false);
+
+    const handleAdd = () => {
+        setOpen(true);
+    };
+
+    const handleClose = () => {
+        setOpen(false);
+    };
 
     return (
         <div className="background">
@@ -17,7 +36,10 @@ function Home(){
                     <Grid2 sx={{ display: "flex", gap: "20px"}}>
                         <Typography variant="h5" component="h2">Funcionarios</Typography>
                         <Tooltip title="Adicionar funcionários">
-                            <Fab variant="extended" sx={{ 
+                            <Fab 
+                            variant="extended"
+                            onClick={handleAdd}
+                            sx={{ 
                             backgroundColor: "#515EA6", 
                             color: "white", 
                             height: 30, 
@@ -73,8 +95,9 @@ function Home(){
                         </Tooltip>
                     </Grid2>
                 </section>
-                <Tabela></Tabela>
+                <Tabela/>
             </main>
+            <EmployeeModal open={open} handleClose={handleClose} inputFields={inputFields} />
         </div>
     )
 }
