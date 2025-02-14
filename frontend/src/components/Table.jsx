@@ -1,61 +1,95 @@
-import { Paper } from "@mui/material"
+import { Paper, Icon, IconButton, Dialog, DialogTitle, DialogContent, DialogActions, TextField, Button, Grid2 } from "@mui/material"
 import { DataGrid } from '@mui/x-data-grid';
-import { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react'; 
 //import CustomToolbar from "./CustomToolbar";
 
-const colunas = [
-    { field: 'matrícula', headerName: 'Matrícula', width: 120 },
-    { field: 'nome', headerName: 'Nome', width: 150 },
-    { field: 'cpf', headerName: 'CPF', width: 120 },
-    { field: 'função', headerName: 'Função', width: 120 },
-    { field: 'empresa', headerName: 'Empresa', width: 70 },
-    { field: 'pis', headerName: 'Pis', width: 130 },
-]
+
 
 async function buscarFuncionarios() {
-    const resposta = await axios.get("http://localhost:8000/funcionarios")
+    const resposta = await axios.get("http://localhost:8000/funcionarios")//alterar 
     return resposta.data
 }
 
-export const Tabela = () => {
-    const [funcionarios, setFuncionarios] = useState([]);
-    const [selectionModel, setSelectionModel] = useState([]);
 
-    const handleEdit = () => {
+
+export const Tabela = ({ inputFields, handleCpfMask }) => {
+    const [funcionarios, setFuncionarios] = useState([]);
+    //const [selectionModel, setSelectionModel] = useState([]);
+    const [openModal, setOpenModal] = useState(false);
+    const [focusedInput, setFocusedInput] = useState(null);
+    const [formData, setFormData] = useState({});
+    const [selectedRow, setSelectedRow] = useState(null);
+
+    const handleEdit = (row) => {
         // Implementa a lógica de edição para as linhas selecionadas
-        console.log('Editar:', selectionModel);
+        setSelectedRow(row);
+        setFormData(row);
+        setOpenModal(true);
+        
       };
     
-      const handleDelete = async () => {
+    const handleCancel = () => {
+        // Implementa a lógica de cancelamento da edição
+        setOpenModal(false);
+      };
+
+    const handleUpdate = async () => {
+        // Implementa a lógica de atualização das linhas selecionadas
+        await axios.put(`http://localhost:8000/funcionarios/${selectedRow.id}/atualizar`, formData);
+        console.log('Atualizar:', selectedRow);
+        setOpenModal(false);
+        window.location.reload();
+    };
+
+    const handleInputChange = (e) =>{
+        setFormData((dataForm) => ({ 
+            ...dataForm, 
+            [e.target.name]: e.target.value 
+        }));
+    }
+      
+    
+    const handleDelete = async () => {
         // Implementa a lógica de exclusão para as linhas selecionadas
         await axios.delete(`http://localhost:8000/funcionarios/${selectionModel}`);
         console.log('Excluir:', selectionModel);
-      };
+    };
 
     useEffect(() => {
         const carregarDados = async () => {
             const dados = await buscarFuncionarios();
             const dadosFormatados = dados.map((funcionario) => ({
                 id: funcionario.id,
-                matrícula: funcionario.matricula,
+                matricula: funcionario.matricula,
                 nome: funcionario.nome,
                 cpf: funcionario.cpf,
-                função: funcionario.funcao,
-                empresa: funcionario.empresa,
+                funcao: funcionario.funcao,
+                empresa_id: funcionario.empresa_id,
                 pis: funcionario.pis,
+                grupo: funcionario.grupo,
             }));
             setFuncionarios(dadosFormatados);
             
         };
         carregarDados();
+
     }, []);
+    const colunas = [
+        { field: 'matricula', headerName: 'Matrícula', width: 120 },
+        { field: 'nome', headerName: 'Nome', width: 150 },
+        { field: 'cpf', headerName: 'CPF', width: 120 },
+        { field: 'funcao', headerName: 'Função', width: 120 },
+        { field: 'empresa', headerName: 'Empresa', width: 70 },
+        { field: 'pis', headerName: 'Pis', width: 130 },
+        { field: 'grupo', headerName: 'Grupo', width: 120 },
+        {field: 'edit', headerName: 'Editar', width: 60, renderCell: (params) => <IconButton style={{ backgroundColor: "#515ea6", color: "white", height: "35px", width: "35px", borderRadius: "4px", "&:hover": {backgroundColor: "#465193"}}} onClick={() => handleEdit(params.row)}><Icon sx={{fontSize: "md"}}>edit</Icon></IconButton> },
+    ]
 
     return (
         <Paper sx={{ height: "auto", width: 'auto', margin: "20px" }}>
             <DataGrid
                 rows={funcionarios}
                 columns={colunas}
-                checkboxSelection
                 initialState={{
                     pagination: {
                         paginationModel: { page: 0, pageSize: 5 },
@@ -76,6 +110,45 @@ export const Tabela = () => {
                     )
                 }}*/
             />
+            <Dialog open={openModal} onClose={handleCancel}>
+                <DialogTitle>Editar Dados</DialogTitle>
+                <DialogContent>
+                    <Grid2 container spacing={2} sx={{ display: "flex", flexDirection: "column", gap: "10px" }}>
+                        {inputFields.map((field, index) => (
+                            <Grid2 item="true" xs={6} key={index}>
+                                <input
+                                    label={field.label}
+                                    type={field.type || 'text'}
+                                    required
+                                    name={field.nome}
+                                    className={field.label}
+                                    placeholder={field.label}
+                                    defaultValue={formData[field.nome] || ''}
+                                    maxLength={field.length || 255}
+                                    onKeyUp={field.label === 'CPF' ? handleCpfMask : undefined}
+                                    onChange={handleInputChange}
+                                    onFocus={() => setFocusedInput(index)}
+                                    onBlur={() => setFocusedInput(null)}
+                                    style={{
+                                        width: "250px",
+                                        height: "40px",
+                                        padding: "10px",
+                                        border: focusedInput === index? "2px solid #515ea6" : "1px solid #ccc",
+                                        borderRadius: "5px",
+                                        transition: "border-color 0.3s ease",
+                                        fontSize: "14px",
+                                        outline: "none",
+                                    }}
+                                />
+                            </Grid2>
+                        ))}
+                    </Grid2>
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={handleCancel} sx={{ color: "#515EA6"}}>Cancelar</Button>
+                    <Button variant="contained" onClick={handleUpdate} sx={{ backgroundColor: "#515EA6"}}>Salvar</Button>
+                </DialogActions>
+            </Dialog>
         </Paper>
     )
 }

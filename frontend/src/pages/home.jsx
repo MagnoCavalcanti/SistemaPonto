@@ -17,6 +17,24 @@ const inputFields = [
     { label: 'Grupo', type: 'text', required: true, nome: 'grupo' },
 ];
 
+const handleCpfMask = (e) => {
+    let value = e.target.value;
+    
+    // Remove all non-digits
+    value = value.replace(/\D/g, '');
+    
+    // Apply CPF mask
+    value = value.replace(/(\d{3})(\d)/, '$1.$2');
+    value = value.replace(/(\d{3})(\d)/, '$1.$2');
+    value = value.replace(/(\d{3})(\d{1,2})$/, '$1-$2');
+    
+    // Limit to 14 characters (including dots and dash)
+    value = value.substring(0, 14);
+    
+    // Update the input value
+    e.target.value = value;
+};
+
 function Home(){
     const location = useLocation()
     const [open, setOpen] = useState(false);
@@ -96,9 +114,9 @@ function Home(){
                         </Tooltip>
                     </Grid2>
                 </section>
-                <Tabela/>
+                <Tabela inputFields={inputFields} handleCpfMask={handleCpfMask} />
             </main>
-            <EmployeeModal open={open} handleClose={handleClose} inputFields={inputFields} />
+            <EmployeeModal open={open} handleClose={handleClose} inputFields={inputFields} handleCpfMask={handleCpfMask} />
         </div>
     )
 }

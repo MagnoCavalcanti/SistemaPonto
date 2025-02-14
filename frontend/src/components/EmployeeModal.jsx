@@ -1,7 +1,7 @@
 import { Dialog, DialogTitle, DialogContent, DialogActions, TextField, Button, Grid2 } from '@mui/material';
 import { useState } from 'react';
 
-const EmployeeModal = ({ open, handleClose, inputFields }) => {
+const EmployeeModal = ({ open, handleClose, inputFields, handleCpfMask }) => {
     const [focusedInput, setFocusedInput] = useState(null);
     const [errorMessages, setErrorMessages] = useState('');
 
@@ -9,23 +9,7 @@ const EmployeeModal = ({ open, handleClose, inputFields }) => {
         
     });
 
-    const handleCpfMask = (e) => {
-        let value = e.target.value;
-        
-        // Remove all non-digits
-        value = value.replace(/\D/g, '');
-        
-        // Apply CPF mask
-        value = value.replace(/(\d{3})(\d)/, '$1.$2');
-        value = value.replace(/(\d{3})(\d)/, '$1.$2');
-        value = value.replace(/(\d{3})(\d{1,2})$/, '$1-$2');
-        
-        // Limit to 14 characters (including dots and dash)
-        value = value.substring(0, 14);
-        
-        // Update the input value
-        e.target.value = value;
-    };
+    
 
     const handleInputChange = (e) => {
         setFormData((dataForm) => ({ 
@@ -60,7 +44,8 @@ const EmployeeModal = ({ open, handleClose, inputFields }) => {
                     <Grid2 container spacing={2} sx={{display: 'flex', flexDirection: 'column', gap: '10px'}}>
                     
                         {inputFields.map((field, index) => (
-                            <Grid2 item xs={6} key={index}>
+                            
+                            <Grid2 item="true" xs={6} key={index}>
                                 <div className="input-container">
                                     
                                     <input
