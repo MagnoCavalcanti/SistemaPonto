@@ -44,7 +44,7 @@ function Barra_deNavegacao({location}){
         <List sx={{ width: "100%", marginTop: 8}}>
     
           <ItemSideBar icon="group" to="/home" location={location} pageName="Funcionários" />
-          <ItemSideBar icon="business" to="" location={location} pageName="Empresas" />
+          <ItemSideBar icon="business" to="/Empresas" location={location} pageName="Empresas" />
           <ItemSideBar icon="bar_chart" to="/espelho_ponto" location={location} pageName="Espelho Ponto" />
           <ItemSideBar icon="calendar_month" to="" location={location} pageName="Agenda" />
           

@@ -3,6 +3,7 @@ import Login from '../pages/login'
 import Home from '../pages/home'
 import PrivateRoute from './privateRoute'
 import EspelhoPonto from '../pages/espelho_ponto'
+import { EmpresaPage } from '../pages/empresasPage'
 
 function Rotas(){
     return (
@@ -13,6 +14,7 @@ function Rotas(){
                     <PrivateRoute><Home/></PrivateRoute>
                     } />
                 <Route path='/espelho_ponto' element={<PrivateRoute><EspelhoPonto/></PrivateRoute>} />
+                <Route path='/empresas' element={<PrivateRoute><EmpresaPage/></PrivateRoute>} />
             </Routes>
         </Router>
     )

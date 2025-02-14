@@ -10,9 +10,14 @@ async function buscarFuncionarios() {
     return resposta.data
 }
 
+async function buscarEmpresas() {
+    const resposta = await axios.get("http://localhost:8000/empresas")//alterar
+    return resposta.data
+}
 
 
-export const Tabela = ({ inputFields, handleCpfMask }) => {
+
+export const TabelaFuncionarios = ({ inputFields, handleCpfMask }) => {
     const [funcionarios, setFuncionarios] = useState([]);
     //const [selectionModel, setSelectionModel] = useState([]);
     const [openModal, setOpenModal] = useState(false);
@@ -82,7 +87,7 @@ export const Tabela = ({ inputFields, handleCpfMask }) => {
         { field: 'empresa', headerName: 'Empresa', width: 70 },
         { field: 'pis', headerName: 'Pis', width: 130 },
         { field: 'grupo', headerName: 'Grupo', width: 120 },
-        {field: 'edit', headerName: 'Editar', width: 60, renderCell: (params) => <IconButton style={{ backgroundColor: "#515ea6", color: "white", height: "35px", width: "35px", borderRadius: "4px", "&:hover": {backgroundColor: "#465193"}}} onClick={() => handleEdit(params.row)}><Icon sx={{fontSize: "md"}}>edit</Icon></IconButton> },
+        {field: 'edit', headerName: 'Editar', width: 60, renderCell: (params) => <IconButton style={{ backgroundColor: "#515ea6", color: "white", height: "30px", width: "30px", borderRadius: "4px", "&:hover": {backgroundColor: "#465193"}}} onClick={() => handleEdit(params.row)}><Icon sx={{fontSize: "md"}}>edit</Icon></IconButton> },
     ]
 
     return (
@@ -98,6 +103,7 @@ export const Tabela = ({ inputFields, handleCpfMask }) => {
                 pageSizeOptions={[5, 10, 25]}
                 paginationMode="server"
                 rowCount={funcionarios.length}
+                rowHeight={35}
                 /*onRowSelectionModelChange={(selectionModel) => {
                     console.log(selectionModel);
                 }}
@@ -149,6 +155,48 @@ export const Tabela = ({ inputFields, handleCpfMask }) => {
                     <Button variant="contained" onClick={handleUpdate} sx={{ backgroundColor: "#515EA6"}}>Salvar</Button>
                 </DialogActions>
             </Dialog>
+        </Paper>
+    )
+}
+
+export const TabelaEmpresas = () => {
+    const [empresas, setEmpresas] = useState([]);
+
+    const colunas = [
+        { field: 'id', headerName: 'ID', width: 60 },
+        { field: 'nome', headerName: 'Nome', width: 300 },
+        { field: 'cnpj', headerName: 'CNPJ', width: 120 },
+        { field: 'endereco', headerName: 'Endereço', width: 180 },
+    ]
+
+    useEffect(() => {
+        const carregarDadosEmpresas = async () => {
+            const dados = await buscarEmpresas();
+            const dadosTratados = dados.map((empresa) => ({
+                id: empresa.id,
+                nome: empresa.nome,
+                cnpj: empresa.cnpj,
+            }));
+            setEmpresas(dadosTratados);
+        }
+        carregarDadosEmpresas();
+            
+    }, []);
+    return (
+        <Paper>
+            <DataGrid 
+            columns={colunas}
+            rows={empresas}
+            rowHeight={35}
+            initialState={{
+                pagination: {
+                    paginationModel: { page: 0, pageSize: 5 },
+                },
+            }}
+            pageSizeOptions={[5, 10, 25]}
+            paginationMode="server"
+            rowCount={empresas.length}
+            />
         </Paper>
     )
 }
