@@ -183,7 +183,7 @@ export const TabelaEmpresas = () => {
             
     }, []);
     return (
-        <Paper>
+        <Paper sx={{ height: "auto", width: 'auto', margin: "20px" }}>
             <DataGrid 
             columns={colunas}
             rows={empresas}
