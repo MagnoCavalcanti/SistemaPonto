@@ -19,6 +19,7 @@ async function buscarEmpresas() {
 
 export const TabelaFuncionarios = ({ inputFields, handleCpfMask }) => {
     const [funcionarios, setFuncionarios] = useState([]);
+    const [empresas, setEmpresas] = useState([]);
     //const [selectionModel, setSelectionModel] = useState([]);
     const [openModal, setOpenModal] = useState(false);
     const [focusedInput, setFocusedInput] = useState(null);
@@ -60,35 +61,48 @@ export const TabelaFuncionarios = ({ inputFields, handleCpfMask }) => {
         console.log('Excluir:', selectionModel);
     };
 
-    useEffect(() => {
-        const carregarDados = async () => {
-            const dados = await buscarFuncionarios();
-            const dadosFormatados = dados.map((funcionario) => ({
-                id: funcionario.id,
-                matricula: funcionario.matricula,
-                nome: funcionario.nome,
-                cpf: funcionario.cpf,
-                funcao: funcionario.funcao,
-                empresa_id: funcionario.empresa_id,
-                pis: funcionario.pis,
-                grupo: funcionario.grupo,
-            }));
-            setFuncionarios(dadosFormatados);
-            
-        };
-        carregarDados();
-
-    }, []);
+    
     const colunas = [
         { field: 'matricula', headerName: 'Matrícula', width: 120 },
         { field: 'nome', headerName: 'Nome', width: 150 },
         { field: 'cpf', headerName: 'CPF', width: 120 },
-        { field: 'funcao', headerName: 'Função', width: 120 },
-        { field: 'empresa', headerName: 'Empresa', width: 70 },
+        { field: 'funcao', headerName: 'Função', width: 170 },
+        { field: 'empresa', headerName: 'Empresa', width: 200 },
         { field: 'pis', headerName: 'Pis', width: 130 },
         { field: 'grupo', headerName: 'Grupo', width: 120 },
         {field: 'edit', headerName: 'Editar', width: 60, renderCell: (params) => <IconButton style={{ backgroundColor: "#515ea6", color: "white", height: "30px", width: "30px", borderRadius: "4px", "&:hover": {backgroundColor: "#465193"}}} onClick={() => handleEdit(params.row)}><Icon sx={{fontSize: "md"}}>edit</Icon></IconButton> },
     ]
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                // Buscar funcionários
+                const funcionariosResponse = await axios.get("http://localhost:8000/funcionarios");
+                
+                // Buscar empresas
+                const empresasResponse = await axios.get("http://localhost:8000/empresas");
+                
+                // Mapear empresas para um objeto de lookup para facilitar a busca
+                const empresasMap = empresasResponse.data.reduce((acc, empresa) => {
+                    acc[empresa.id] = empresa.nome;
+                    return acc;
+                }, {});
+
+                // Adicionar nome da empresa aos funcionários
+                const funcionariosComEmpresas = funcionariosResponse.data.map(funcionario => ({
+                    ...funcionario,
+                    empresa: empresasMap[funcionario.empresa_id] || ''
+                }));
+
+                setFuncionarios(funcionariosComEmpresas);
+                setEmpresas(empresasResponse.data);
+            } catch (error) {
+                console.error("Erro ao buscar dados:", error);
+            }
+        };
+
+        fetchData();
+    }, []);
 
     return (
         <Paper sx={{ height: "auto", width: 'auto', margin: "20px" }}>
@@ -97,10 +111,10 @@ export const TabelaFuncionarios = ({ inputFields, handleCpfMask }) => {
                 columns={colunas}
                 initialState={{
                     pagination: {
-                        paginationModel: { page: 0, pageSize: 5 },
+                        paginationModel: { page: 0, pageSize: 25 },
                     },
                 }}
-                pageSizeOptions={[5, 10, 25]}
+                pageSizeOptions={[25, 50, 100]}
                 paginationMode="server"
                 rowCount={funcionarios.length}
                 rowHeight={35}
@@ -122,30 +136,62 @@ export const TabelaFuncionarios = ({ inputFields, handleCpfMask }) => {
                     <Grid2 container spacing={2} sx={{ display: "flex", flexDirection: "column", gap: "10px" }}>
                         {inputFields.map((field, index) => (
                             <Grid2 item="true" xs={6} key={index}>
-                                <input
-                                    label={field.label}
-                                    type={field.type || 'text'}
-                                    required
-                                    name={field.nome}
-                                    className={field.label}
-                                    placeholder={field.label}
-                                    defaultValue={formData[field.nome] || ''}
-                                    maxLength={field.length || 255}
-                                    onKeyUp={field.label === 'CPF' ? handleCpfMask : undefined}
-                                    onChange={handleInputChange}
-                                    onFocus={() => setFocusedInput(index)}
-                                    onBlur={() => setFocusedInput(null)}
-                                    style={{
-                                        width: "250px",
-                                        height: "40px",
-                                        padding: "10px",
-                                        border: focusedInput === index? "2px solid #515ea6" : "1px solid #ccc",
-                                        borderRadius: "5px",
-                                        transition: "border-color 0.3s ease",
-                                        fontSize: "14px",
-                                        outline: "none",
-                                    }}
-                                />
+                                <div className="input-container">
+                                    {field.type === 'select' ? (
+                                        <select
+                                            required
+                                            name={field.nome}
+                                            className={field.label}
+                                            onChange={handleInputChange}
+                                            onFocus={() => setFocusedInput(index)}
+                                            onBlur={() => setFocusedInput(null)}
+                                            defaultValue={formData[field.nome]}
+                                            style={{
+                                                width: "250px",
+                                                height: "40px",
+                                                padding: "10px",
+                                                border: focusedInput === index ? "2px solid #515ea6" : "1px solid #ccc",
+                                                borderRadius: "5px",
+                                                transition: "border-color 0.3s ease",
+                                                fontSize: "14px",
+                                                outline: "none",
+                                            }}
+                                        >
+                                            <option value="" selected disabled >{field.label}</option>
+                                            {/* Adicione opções aqui, por exemplo: */}
+                                            {empresas.map((empresa) => (
+                                                <option key={empresa.id} value={empresa.id}>
+                                                    {empresa.nome}
+                                                </option>
+                                            ))}
+                                        </select>
+                                    ) : (
+                                        <input
+                                            type={field.type || 'text'}
+                                            required
+                                            name={field.nome}
+                                            className={field.label}
+                                            placeholder={field.label}
+                                            {...(field.type === 'text' ? { maxLength: field.length || 255 } : {})}
+                                            {...(field.type === 'number' ? { max: Math.pow(10, field.length || 10) - 1 } : {})}
+                                            defaultValue={formData[field.nome] || ''}
+                                            onKeyUp={field.label === 'CPF' ? handleCpfMask : undefined}
+                                            onChange={handleInputChange}
+                                            onFocus={() => setFocusedInput(index)}
+                                            onBlur={() => setFocusedInput(null)}
+                                            style={{
+                                                width: "250px",
+                                                height: "40px",
+                                                padding: "10px",
+                                                border: focusedInput === index ? "2px solid #515ea6" : "1px solid #ccc",
+                                                borderRadius: "5px",
+                                                transition: "border-color 0.3s ease",
+                                                fontSize: "14px",
+                                                outline: "none",
+                                            }}
+                                        />
+                                    )}
+                                </div>
                             </Grid2>
                         ))}
                     </Grid2>

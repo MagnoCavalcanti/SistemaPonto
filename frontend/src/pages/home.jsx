@@ -12,8 +12,8 @@ const inputFields = [
     { label: 'Nome', type: 'text', required: true,  nome: 'nome' },,
     { label: 'CPF', type: 'text', required: true, nome: 'cpf', length: 14 },
     { label: 'Função', type: 'text', required: true, nome: 'funcao' },
-    { label: 'Empresa', type: 'number', required: true, nome: 'empresa_id' },
-    { label: 'Pis', type: 'number', required: true, nome: 'pis' },
+    { label: 'Empresa', type: 'select', required: true, nome: 'empresa_id' },
+    { label: 'Pis', type: 'number', required: true, nome: 'pis', length: 11 },
     { label: 'Grupo', type: 'text', required: true, nome: 'grupo' },
 ];
 
