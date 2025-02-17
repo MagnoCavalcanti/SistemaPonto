@@ -47,6 +47,23 @@ function Home(){
         setOpen(false);
     };
 
+    const handleExport = async () => {
+        // Implement export logic here
+        try {
+            const response = await axios.get("http://localhost:8000/pdf/generate", {
+                responseType: 'blob', // Importante para receber o PDF como blob
+            });
+
+            const url = window.URL.createObjectURL(new Blob([response.data], { type: 'application/pdf' }));
+            const newWindow = window.open(url, "_blank");
+            
+        } catch (error) {
+            console.error("Erro ao exportar PDF:", error);
+        }
+        
+        
+    }
+
     return (
         <div className="background">
             <Barra_deNavegacao location={location}/>
@@ -76,7 +93,7 @@ function Home(){
                                 backgroundColor: "white",
                                 height: 30,
                                 borderRadius: "4px",
-
+                                onClick: {handleExport}
                             }}>
                                 <Icon>local_printshop</Icon>
                                 <p>Exportar</p>
