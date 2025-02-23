@@ -22,7 +22,7 @@ class Funcionario(Base):
     nome= Column(String(75), nullable=False)
     matricula= Column(Integer, nullable=False, unique=True)
     pis= Column(Integer, nullable=False, unique=True)
-    empresa_id = Column(Integer, ForeignKey("empresas.id"), nullable=False)
+    empresa_id = Column(Integer, ForeignKey("empresas.id"))
     funcao= Column(String(100))
     grupo= Column(String(100))
     cpf= Column(String(20), nullable=False, unique=True)  
@@ -48,5 +48,11 @@ class RegistroPonto(Base):
     tipo = Column(Enum("Entrada", "Saída", "Início do Intervalo", "Fim do Intervalo"), nullable=False)
     
 
-
+class Relogio(Base):
+    __tablename__ = "relogios"
+    id = Column(Integer, autoincrement=True, primary_key=True)
+    nome = Column(String(100), nullable=False, unique=True)
+    ip = Column(String(25), nullable=False, unique=True)
+    porta = Column(Integer, nullable=False)
+    empresa_id = Column(Integer, ForeignKey("empresas.id"), nullable=False)
     
