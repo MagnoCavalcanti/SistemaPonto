@@ -7,16 +7,7 @@ import { ItemSideBar } from "./ItemSideBar";
 
 function Barra_deNavegacao({location}){
     const navigate = useNavigate();
-    const ativado = {
-      content: '""',
-      position: "absolute",
-      left: 0,
-      top: "10%",
-      height: "80%",
-      width: "4px",
-      backgroundColor: "white",
-      borderRadius: "0px 4px 4px 0px",
-    }
+    
     
 
     const handleLogOut = () => {

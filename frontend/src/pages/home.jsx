@@ -89,11 +89,10 @@ function Home(){
                             </Fab>
                         </Tooltip>
                         <Tooltip title="Exportar dados">
-                            <Fab variant="extended"  sx={{
+                            <Fab variant="extended" onClick={handleExport} sx={{
                                 backgroundColor: "white",
                                 height: 30,
                                 borderRadius: "4px",
-                                onClick: {handleExport}
                             }}>
                                 <Icon>local_printshop</Icon>
                                 <p>Exportar</p>
