@@ -8,7 +8,7 @@ import sys
 absolut_path = os.path.abspath(os.curdir)
 sys.path.insert(0, absolut_path)
 
-from backend.services.ponto_repo import PontoRepo
+from backend.repositories.ponto_repo import PontoRepo
 from backend.database.seed_data import get_db_session
 from backend.schemas import RegistroPonto
 

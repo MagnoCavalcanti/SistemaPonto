@@ -11,7 +11,7 @@ absolut_path = os.path.abspath(os.curdir)
 sys.path.insert(0, absolut_path)
 
 from backend.database.db_connection import Session as sessionmaker
-from backend.services.auth_user import UserUseCases
+from backend.repositories.auth_user import UserUseCases
 
 SECRET_KEY = config("SECRET_KEY")
 ALGORITHM = config("ALGORITHM")

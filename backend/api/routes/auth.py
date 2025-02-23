@@ -12,7 +12,7 @@ sys.path.insert(0, absolut_path)
 
 from backend.schemas.user import User
 from backend.database.seed_data import get_db_session, get_current_user
-from backend.services.auth_user import UserUseCases
+from backend.repositories.auth_user import UserUseCases
 
 auth_router = APIRouter()
 

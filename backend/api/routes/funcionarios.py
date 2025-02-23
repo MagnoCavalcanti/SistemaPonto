@@ -8,7 +8,7 @@ import sys
 absolut_path = os.path.abspath(os.curdir)
 sys.path.insert(0, absolut_path)
 
-from backend.services.funcionario_repo import FuncionarioRepo
+from backend.repositories.funcionario_repo import FuncionarioRepo
 from backend.database.seed_data import get_db_session
 from backend.schemas import Funcionario
 
