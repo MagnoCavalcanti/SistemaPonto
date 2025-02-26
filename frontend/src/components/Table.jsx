@@ -3,21 +3,7 @@ import { DataGrid } from '@mui/x-data-grid';
 import { useState, useEffect } from 'react'; 
 //import CustomToolbar from "./CustomToolbar";
 
-
-
-async function buscarFuncionarios() {
-    const resposta = await axios.get("http://localhost:8000/funcionarios")//alterar 
-    return resposta.data
-}
-
-async function buscarEmpresas() {
-    const resposta = await axios.get("http://localhost:8000/empresas")//alterar
-    return resposta.data
-}
-
-
-
-export const TabelaFuncionarios = ({ inputFields, handleCpfMask }) => {
+export const TabelaFuncionarios = ({ inputFields, handleCpfMask, empresa }) => {
     const [funcionarios, setFuncionarios] = useState([]);
     const [empresas, setEmpresas] = useState([]);
     //const [selectionModel, setSelectionModel] = useState([]);
@@ -41,7 +27,7 @@ export const TabelaFuncionarios = ({ inputFields, handleCpfMask }) => {
 
     const handleUpdate = async () => {
         // Implementa a lógica de atualização das linhas selecionadas
-        await axios.put(`http://localhost:8000/funcionarios/${selectedRow.id}/atualizar`, formData);
+        await axios.put(`http://localhost:8000/${empresa}/funcionarios/${selectedRow.id}/atualizar`, formData);
         console.log('Atualizar:', selectedRow);
         setOpenModal(false);
         window.location.reload();
@@ -77,7 +63,7 @@ export const TabelaFuncionarios = ({ inputFields, handleCpfMask }) => {
         const fetchData = async () => {
             try {
                 // Buscar funcionários
-                const funcionariosResponse = await axios.get("http://localhost:8000/funcionarios");
+                const funcionariosResponse = await axios.get(`http://localhost:8000/${empresa}/funcionarios`);
                 
                 // Buscar empresas
                 const empresasResponse = await axios.get("http://localhost:8000/empresas");
@@ -157,13 +143,8 @@ export const TabelaFuncionarios = ({ inputFields, handleCpfMask }) => {
                                                 outline: "none",
                                             }}
                                         >
-                                            <option value="" selected disabled >{field.label}</option>
-                                            {/* Adicione opções aqui, por exemplo: */}
-                                            {empresas.map((empresa) => (
-                                                <option key={empresa.id} value={empresa.id}>
-                                                    {empresa.nome}
-                                                </option>
-                                            ))}
+                                            <option value="" selected disabled >{empresa}</option>
+                                            
                                         </select>
                                     ) : (
                                         <input
@@ -215,19 +196,7 @@ export const TabelaEmpresas = () => {
         { field: 'endereco', headerName: 'Endereço', width: 180 },
     ]
 
-    useEffect(() => {
-        const carregarDadosEmpresas = async () => {
-            const dados = await buscarEmpresas();
-            const dadosTratados = dados.map((empresa) => ({
-                id: empresa.id,
-                nome: empresa.nome,
-                cnpj: empresa.cnpj,
-            }));
-            setEmpresas(dadosTratados);
-        }
-        carregarDadosEmpresas();
-            
-    }, []);
+    
     return (
         <Paper sx={{ height: "auto", width: 'auto', margin: "20px" }}>
             <DataGrid 

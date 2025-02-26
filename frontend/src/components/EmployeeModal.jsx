@@ -1,7 +1,7 @@
 import { Dialog, DialogTitle, DialogContent, DialogActions, TextField, Button, Grid2 } from '@mui/material';
 import { useEffect, useState } from 'react';
 
-const EmployeeModal = ({ open, handleClose, inputFields, handleCpfMask }) => {
+const EmployeeModal = ({ open, handleClose, inputFields, handleCpfMask, empresa }) => {
     const [focusedInput, setFocusedInput] = useState(null);
     const [errorMessages, setErrorMessages] = useState('');
     const [empresas, setEmpresas] = useState([]);
@@ -10,18 +10,7 @@ const EmployeeModal = ({ open, handleClose, inputFields, handleCpfMask }) => {
         
     });
 
-    useEffect(() => {
-        const fetchEmpresas = async () => {
-            try {
-                const response = await axios.get("http://localhost:8000/empresas");
-                setEmpresas(response.data);
-            } catch (error) {
-                console.error(error);
-            }
-        };
-
-        fetchEmpresas();
-    }, []);
+    
 
     const handleInputChange = (e) => {
         setFormData((dataForm) => ({ 
@@ -36,7 +25,7 @@ const EmployeeModal = ({ open, handleClose, inputFields, handleCpfMask }) => {
         
         //usando a biblioteca Axios para fazer uma requisição POST para o backend
         try {
-            await axios.post("http://localhost:8000/funcionarios/cadastro", formData);
+            await axios.post(`http://localhost:8000/${empresa}/funcionarios/cadastro`, formData);
             handleClose();
             window.location.reload();
         }
@@ -81,12 +70,8 @@ const EmployeeModal = ({ open, handleClose, inputFields, handleCpfMask }) => {
                                         >
                                             
                                             {/* Adicione opções aqui, por exemplo: */}
-                                            <option value=""  selected disabled>{field.label}</option>
-                                            {empresas.map((empresa) => (
-                                                <option key={empresa.id} value={empresa.id}>
-                                                    {empresa.nome}
-                                                </option>
-                                            ))}
+                                            <option value=""  selected disabled>{empresa}</option>
+                                            
                                         </select>
                                     ) : (
                                         <input

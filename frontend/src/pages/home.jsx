@@ -1,4 +1,4 @@
-import { useLocation } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 import Barra_deNavegacao from "../components/sideBar";
 import { TabelaFuncionarios } from "../components/Table";
 
@@ -35,9 +35,10 @@ const handleCpfMask = (e) => {
     e.target.value = value;
 };
 
-function Home(){
+function Funcionarios(){
     const location = useLocation()
     const [open, setOpen] = useState(false);
+    const { empresa } = useParams();
 
     const handleAdd = () => {
         setOpen(true);
@@ -50,7 +51,7 @@ function Home(){
     const handleExport = async () => {
         // Implement export logic here
         try {
-            const response = await axios.get("http://localhost:8000/pdf/generate", {
+            const response = await axios.get(`http://localhost:8000/${empresa}/pdf/generate`, {
                 responseType: 'blob', // Importante para receber o PDF como blob
             });
 
@@ -101,11 +102,11 @@ function Home(){
                     </Grid2>
                    
                 </section>
-                <TabelaFuncionarios inputFields={inputFields} handleCpfMask={handleCpfMask} />
+                <TabelaFuncionarios inputFields={inputFields} handleCpfMask={handleCpfMask} empresa={empresa} />
             </main>
-            <EmployeeModal open={open} handleClose={handleClose} inputFields={inputFields} handleCpfMask={handleCpfMask} />
+            <EmployeeModal open={open} handleClose={handleClose} inputFields={inputFields} handleCpfMask={handleCpfMask} empresa={empresa} />
         </div>
     )
 }
 
-export default Home;
+export default Funcionarios;

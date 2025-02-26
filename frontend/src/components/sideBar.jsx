@@ -34,7 +34,7 @@ function Barra_deNavegacao({location}){
       <Box sx={{ display: "flex", flexDirection: "column", alignItems: "center", height: "100%", width: "100%", py: 2 }}>
         <List sx={{ width: "100%", marginTop: 8}}>
     
-          <ItemSideBar icon="group" to="/home" location={location} pageName="Funcionários" />
+          <ItemSideBar icon="group" to="/funcionarios" location={location} pageName="Funcionários" />
           <ItemSideBar icon="business" to="/Empresas" location={location} pageName="Empresas" />
           <ItemSideBar icon="bar_chart" to="/espelho_ponto" location={location} pageName="Espelho Ponto" />
           <ItemSideBar icon="calendar_month" to="" location={location} pageName="Agenda" />

@@ -46,7 +46,7 @@ function Login(){
             localStorage.setItem("token", JSON.stringify(token));
             //console.log(localStorage.getItem("token"))
         
-            history("/home");
+            history("/funcionarios");
         
         }catch (err) {
             //Em caso de erro, exibirá uma mensagem na tela
