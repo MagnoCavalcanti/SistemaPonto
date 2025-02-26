@@ -55,4 +55,6 @@ class Relogio(Base):
     ip = Column(String(25), nullable=False, unique=True)
     porta = Column(Integer, nullable=False)
     empresa_id = Column(Integer, ForeignKey("empresas.id"), nullable=False)
+
+    
     
