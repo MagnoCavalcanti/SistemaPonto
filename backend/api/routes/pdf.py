@@ -9,13 +9,14 @@ absolut_path = os.path.abspath(os.curdir)
 sys.path.insert(0, absolut_path)
 
 from backend.services.genPDF import PDFGenerator_Repo
-from backend.database.seed_data import get_db_session
+from backend.database.seed_data import get_db_session, verificar_empresa
 
-pdf_router = APIRouter(prefix="/pdf")
+pdf_router = APIRouter(prefix="/{empresa}/pdf")
 
 @pdf_router.get("/generate")
-async def generate_pdf(db: Session =Depends(get_db_session)):
+async def generate_pdf(db: Session =Depends(get_db_session), empresa: str = None):
+    empresa_id = verificar_empresa(empresa, db)
     pdf_generator = PDFGenerator_Repo(db)
-    html = pdf_generator.generate_html()
+    html = pdf_generator.generate_html(empresa_id=empresa_id)
     pdf = pdf_generator.generate_pdf(html)
     return StreamingResponse(BytesIO(pdf), media_type="application/pdf")

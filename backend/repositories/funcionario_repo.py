@@ -17,7 +17,7 @@ class FuncionarioRepo:
         self.db = dbsession
 
     
-    def register_funcionario(self, funcionario:Funcionario):
+    def register_funcionario(self, funcionario:Funcionario, empresa_id: int):
         funcionario_model = Funcionario_models(
             nome=funcionario.nome,
             matricula=funcionario.matricula,
@@ -27,6 +27,11 @@ class FuncionarioRepo:
             grupo=funcionario.grupo,
             cpf=funcionario.cpf
         )
+        if funcionario.empresa_id != empresa_id:
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail="Empresa não encontrada!"
+            )
         
         try:
             self.db.add(funcionario_model)
@@ -36,9 +41,9 @@ class FuncionarioRepo:
                 status_code=status.HTTP_400_BAD_REQUEST,
                 detail='Funcionário já existente!'
             )
-    def list_funcionario(self):
+    def list_funcionario(self, empresa_id: int):
         try:
-            funcionario_db = self.db.query(Funcionario_models).all()
+            funcionario_db = self.db.query(Funcionario_models).filter_by(empresa_id=empresa_id).all()
             
             return funcionario_db
         except IntegrityError:
@@ -47,10 +52,16 @@ class FuncionarioRepo:
                 detail="Erro no servidor!"
             )
         
-    def update_funcionario(self, id_funcionario: int, value_update):
+    def update_funcionario(self, id_funcionario: int, value_update, empresa_id: int):
         try:
-            self.db.query(Funcionario_models).filter_by(id=id_funcionario).update(value_update)
+            updated = self.db.query(Funcionario_models).filter(Funcionario_models.id ==id_funcionario, Funcionario_models.empresa_id == empresa_id).update(value_update)
             self.db.commit()
+            if updated == 0:
+                raise HTTPException(
+                    status_code=status.HTTP_404_NOT_FOUND,
+                    detail="Funcionário não encontrado!"
+                )
+            
         except IntegrityError:
             self.db.rollback()
             raise HTTPException(

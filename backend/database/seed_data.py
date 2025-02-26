@@ -12,6 +12,7 @@ sys.path.insert(0, absolut_path)
 
 from backend.database.db_connection import Session as sessionmaker
 from backend.repositories.auth_user import UserUseCases
+from backend.repositories.empresa_repo import EmpresaRepositorio
 
 SECRET_KEY = config("SECRET_KEY")
 ALGORITHM = config("ALGORITHM")
@@ -42,3 +43,8 @@ def get_current_user(token: str = Depends(oauth2_scheme), db: Session = Depends(
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Token expired")
     except jwt.JWTError:
         raise credentials_exception
+    
+def verificar_empresa(empresa: str, db: Session = Depends(get_db_session)):
+    empresa_repo = EmpresaRepositorio(db)
+    empresa = empresa_repo.search_empresa(empresa_nome=empresa)
+    return empresa.id

@@ -27,9 +27,9 @@ class PDFGenerator_Repo:
         }
         self.db: Session = dbsession
 
-    def generate_html(self) -> str:
+    def generate_html(self, empresa_id) -> str:
         # Fetch data from the database
-        funcionarios = self.db.query(Funcionario).all()  # Assuming you have a Funcionario model
+        funcionarios = self.db.query(Funcionario).filter_by(empresa_id=empresa_id).all()  # Assuming you have a Funcionario model
 
         # Generate HTML with data
         rows = ""

@@ -55,3 +55,14 @@ class EmpresaRepositorio:
                 status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
                 detail=f"Erro interno: {e}"
             )
+    
+    def search_empresa(self, empresa_nome: int):
+        try:
+            empresa_db = self.db.query(Empresa_models).filter_by(nome=empresa_nome).first()
+            return empresa_db
+        except Exception as e:
+            self.db.rollback()
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail=f"Erro interno: {e}"
+            )
