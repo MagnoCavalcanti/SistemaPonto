@@ -8,7 +8,7 @@ class Funcionario(BaseModel):
     empresa_id : int
     funcao: str
     grupo: str
-    cpf: str
+    cpf: str = 'XXX.XXX.XXX-XX'
     
     class Config:
         orm_mode = True

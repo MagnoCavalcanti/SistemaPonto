@@ -20,6 +20,8 @@ class EmpresaRepositorio:
 
 
     def register_empresa(self, empresa: Empresa):
+        if empresa.cnpj == 'XX.XXX.XXX/XXXX-XX':
+            empresa.cnpj = None # Não pode ser None
         empresa_model = Empresa_models(
             nome=empresa.nome,
             cnpj=empresa.cnpj

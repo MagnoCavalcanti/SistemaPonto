@@ -18,6 +18,9 @@ class FuncionarioRepo:
 
     
     def register_funcionario(self, funcionario:Funcionario, empresa_id: int):
+        if funcionario.cpf == 'XXX.XXX.XXX-XX':
+            funcionario.cpf = None # Não pode ser None
+            
         funcionario_model = Funcionario_models(
             nome=funcionario.nome,
             matricula=funcionario.matricula,

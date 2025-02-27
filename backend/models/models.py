@@ -1,5 +1,6 @@
-from sqlalchemy import Column, Integer, String, ForeignKey, Date, Time, DateTime, Enum
+from sqlalchemy import Column, Integer, String, ForeignKey, Date, Time, DateTime, Enum, CheckConstraint
 from sqlalchemy.orm import validates
+import re
 
 
 from .base import Base
@@ -27,6 +28,14 @@ class Funcionario(Base):
     grupo= Column(String(100))
     cpf= Column(String(20), nullable=False, unique=True)  
 
+    @validates('cpf')
+    def validate_cpf(self, key, cpf):
+        # Regex para validar CPF formatado ou apenas números
+        pattern = r"^\d{3}\.\d{3}\.\d{3}-\d{2}$"
+
+        if not re.match(pattern, cpf):
+            raise ValueError("CPF inválido. Use o formato XXX.XXX.XXX-XX.")
+
    
 
 
@@ -37,7 +46,16 @@ class Empresa(Base):
     nome = Column(String(100), nullable=False, unique=True)
     cnpj = Column(String(25), nullable=False, unique=True)
 
+    
+    @validates('cnpj')
+    def validate_cnpj(self, key, cnpj):
+        # Regex para validar CNPJ formatado ou apenas números
+            pattern = r"^\d{2}\.\d{3}\.\d{3}/\d{4}-\d{2}$"
 
+            if not re.match(pattern, cnpj):
+                raise ValueError("CNPJ inválido. Use o formato XX.XXX.XXX/XXXX-XX.")
+
+            return cnpj
 class RegistroPonto(Base):
 
     __tablename__= "registros_de_pontos"
@@ -55,6 +73,16 @@ class Relogio(Base):
     ip = Column(String(25), nullable=False, unique=True)
     porta = Column(Integer, nullable=False)
     empresa_id = Column(Integer, ForeignKey("empresas.id"), nullable=False)
+
+    __table_args__ = (
+        CheckConstraint('porta >= 0 AND porta <= 65535', name='porta_range'),
+    ) 
+
+    @validates('porta')
+    def validate_porta(self, key, value):
+        if value < 0 or value > 65535:
+            raise ValueError('Porta inválida')
+        return value
 
     
     

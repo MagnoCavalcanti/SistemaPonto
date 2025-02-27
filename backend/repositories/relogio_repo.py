@@ -8,7 +8,7 @@ absolut_path = os.path.abspath(os.curdir)
 sys.path.insert(0, absolut_path)
 
 from backend.models.models import Relogio as RelogioModels
-from backend.schemas import Relogio
+from backend.schemas import Relogio   
 
 class RelogioRepository:
     def __init__(self, dbsession: Session):
