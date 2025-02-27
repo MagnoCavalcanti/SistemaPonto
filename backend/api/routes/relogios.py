@@ -30,3 +30,10 @@ def cadastrar_relogio(db: Session = Depends(get_db_session), empresa: str = None
     relogio_repo.registrar_relogio(empresa_id=empresa_id, relogio=relogio)  
 
     return {"message": "Relógio cadastrado com sucesso!"}
+
+@relogios_router.put("/editar/{relogio_id}")
+def editar_relogio(db: Session = Depends(get_db_session), empresa: str = None, relogio_id: int = None, relogio: Relogio = None):
+    empresa_id = verificar_empresa(db=db, empresa=empresa)
+    relogio_repo = RelogioRepository(db)
+    relogio_repo.atualizar_relogio(empresa_id=empresa_id, relogio_id=relogio_id, relogio=relogio)
+    return {"message": "Relógio editado com sucesso!"}

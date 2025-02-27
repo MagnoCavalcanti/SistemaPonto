@@ -8,7 +8,7 @@ absolut_path = os.path.abspath(os.curdir)
 sys.path.insert(0, absolut_path)
 
 from backend.models.models import Relogio as RelogioModels
-from backend.schemas.relogio import Relogio
+from backend.schemas import Relogio
 
 class RelogioRepository:
     def __init__(self, dbsession: Session):
@@ -51,3 +51,33 @@ class RelogioRepository:
                 status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
                 detail="Erro no servidor!"
             )
+        
+    def atualizar_relogio(self, relogio: Relogio,relogio_id: int, empresa_id: int):
+        if relogio.empresa_id != empresa_id:
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail="Empresa não encontrada!"
+            )
+        relogio_db = self.db.query(RelogioModels).filter_by(id=relogio_id).first()
+        if not relogio_db:
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail="Relogio não encontrado!"
+            )
+        relogio_db.nome = relogio.nome
+        relogio_db.ip = relogio.ip
+        relogio_db.porta = relogio.porta
+        relogio_db.empresa_id = relogio.empresa_id
+        try:
+            self.db.commit()
+        except IntegrityError as e:
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail="Erro ao atualizar relogio!"
+            )
+        except Exception as e:
+            raise HTTPException(
+                status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+                detail="Erro no servidor!"
+            )
+        
