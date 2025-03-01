@@ -2,7 +2,7 @@ import { useLocation, useParams } from "react-router-dom";
 import Barra_deNavegacao from "../components/sideBar";
 import { TabelaFuncionarios } from "../components/Table";
 
-import "../styles/home.css"
+import "../styles/global.css"
 import { Fab, Grid2, Icon, Paper, Tooltip, Typography } from "@mui/material";
 import { useState } from "react";
 import EmployeeModal from "../components/EmployeeModal";
@@ -69,7 +69,12 @@ function Funcionarios(){
         <div className="background">
             <Barra_deNavegacao location={location}/>
             <main>
-                <section className="cabeçalho">
+                <section className="cabeçalho" style={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    margin: "30px 40px 30px ",
+                    width: "1230px"
+                    }}>
                     <Grid2 sx={{ display: "flex", gap: "20px", }}>
                         <Typography variant="h5" component="h2">Funcionarios</Typography>
                         <Tooltip title="Adicionar funcionários">
@@ -89,6 +94,9 @@ function Funcionarios(){
                                 <p>Adicionar</p>
                             </Fab>
                         </Tooltip>
+                        <Fab variant="extended" >
+                            <p>asdasddsdsdsdggggggggggggggggggggggggggggggggggggggggg</p>
+                        </Fab>
                         <Tooltip title="Exportar dados">
                             <Fab variant="extended" onClick={handleExport} sx={{
                                 backgroundColor: "white",

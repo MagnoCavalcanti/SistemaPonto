@@ -16,12 +16,6 @@ div.background {
     gap: 10px;
 }
 
-div.background > main > section.cabeçalho{
-    display: flex;
-    justify-content: space-between;
-    margin: 30px 40px 30px ;
-    width: 1230px;
-}
 
 
 
