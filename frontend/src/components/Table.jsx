@@ -106,7 +106,7 @@ export const TabelaFuncionarios = ({ inputFields, handleCpfMask, empresa }) => {
                 rowHeight={35}
                 /*onRowSelectionModelChange={(selectionModel) => {
                     console.log(selectionModel);
-                }}
+                }} Não lembro o que é isso
                 components={{
                     Toolbar: () => (
                         <CustomToolbar

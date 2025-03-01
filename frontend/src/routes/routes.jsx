@@ -13,7 +13,7 @@ function Rotas(){
                 <Route path='/:empresa/funcionarios' element={
                     <PrivateRoute><Funcionarios/></PrivateRoute>
                 } />
-                <Route path='/:empresa/espelho_ponto' element={
+                <Route path='/:empresa/espelho-ponto' element={
                     <PrivateRoute><EspelhoPonto/></PrivateRoute>
                 } />
                 <Route path='/:empresa/empresas' element={

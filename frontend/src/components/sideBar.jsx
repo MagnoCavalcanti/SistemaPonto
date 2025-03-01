@@ -1,4 +1,4 @@
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { Avatar, Box, Drawer, Icon, List, ListItem, ListItemIcon, Tooltip} from '@mui/material'
 import { useState } from "react";
 
@@ -7,12 +7,14 @@ import { ItemSideBar } from "./ItemSideBar";
 
 function Barra_deNavegacao({location}){
     const navigate = useNavigate();
+    const {empresa} = useParams();
     
     
 
     const handleLogOut = () => {
         localStorage.removeItem("token");
-        navigate("/");
+
+        navigate(`/${empresa}`);
     }
 
     return (
@@ -34,10 +36,10 @@ function Barra_deNavegacao({location}){
       <Box sx={{ display: "flex", flexDirection: "column", alignItems: "center", height: "100%", width: "100%", py: 2 }}>
         <List sx={{ width: "100%", marginTop: 8}}>
     
-          <ItemSideBar icon="group" to="/funcionarios" location={location} pageName="Funcionários" />
-          <ItemSideBar icon="business" to="/Empresas" location={location} pageName="Empresas" />
-          <ItemSideBar icon="bar_chart" to="/espelho_ponto" location={location} pageName="Espelho Ponto" />
-          <ItemSideBar icon="calendar_month" to="" location={location} pageName="Agenda" />
+          <ItemSideBar icon="group" to={`/${empresa}/funcionarios`} location={location} pageName="Funcionários" />
+          <ItemSideBar icon="business" to={`/${empresa}/empresas`}  location={location} pageName="Empresas" />
+          <ItemSideBar icon="bar_chart" to={`/${empresa}/espelho-ponto`}  location={location} pageName="Espelho Ponto" />
+          <ItemSideBar icon="calendar_month" to={``} location={location} pageName="Agenda" />
           
         </List>
 
