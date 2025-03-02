@@ -94,9 +94,7 @@ function Funcionarios(){
                                 <p>Adicionar</p>
                             </Fab>
                         </Tooltip>
-                        <Fab variant="extended" >
-                            <p>asdasddsdsdsdggggggggggggggggggggggggggggggggggggggggg</p>
-                        </Fab>
+                        
                         <Tooltip title="Exportar dados">
                             <Fab variant="extended" onClick={handleExport} sx={{
                                 backgroundColor: "white",

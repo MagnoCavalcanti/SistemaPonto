@@ -8,8 +8,7 @@ import { ItemSideBar } from "./ItemSideBar";
 function Barra_deNavegacao({location}){
     const navigate = useNavigate();
     const {empresa} = useParams();
-    
-    
+
 
     const handleLogOut = () => {
         localStorage.removeItem("token");

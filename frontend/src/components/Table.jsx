@@ -1,6 +1,7 @@
 import { Paper, Icon, IconButton, Dialog, DialogTitle, DialogContent, DialogActions, TextField, Button, Grid2 } from "@mui/material"
 import { DataGrid } from '@mui/x-data-grid';
 import { useState, useEffect } from 'react'; 
+import { useNavigate, useParams } from "react-router-dom";
 //import CustomToolbar from "./CustomToolbar";
 
 export const TabelaFuncionarios = ({ inputFields, handleCpfMask, empresa }) => {
@@ -11,11 +12,13 @@ export const TabelaFuncionarios = ({ inputFields, handleCpfMask, empresa }) => {
     const [focusedInput, setFocusedInput] = useState(null);
     const [formData, setFormData] = useState({});
     const [selectedRow, setSelectedRow] = useState(null);
+    const navigate = useNavigate();
 
     const handleEdit = (row) => {
         // Implementa a lógica de edição para as linhas selecionadas
         setSelectedRow(row);
         setFormData(row);
+        console.log('Editar:', row.id);
         setOpenModal(true);
         
       };
@@ -48,6 +51,8 @@ export const TabelaFuncionarios = ({ inputFields, handleCpfMask, empresa }) => {
     };
 
     
+
+    
     const colunas = [
         { field: 'matricula', headerName: 'Matrícula', width: 120 },
         { field: 'nome', headerName: 'Nome', width: 150 },
@@ -56,7 +61,7 @@ export const TabelaFuncionarios = ({ inputFields, handleCpfMask, empresa }) => {
         { field: 'empresa', headerName: 'Empresa', width: 200 },
         { field: 'pis', headerName: 'Pis', width: 130 },
         { field: 'grupo', headerName: 'Grupo', width: 120 },
-        {field: 'edit', headerName: 'Editar', width: 60, renderCell: (params) => <IconButton style={{ backgroundColor: "#515ea6", color: "white", height: "30px", width: "30px", borderRadius: "4px", "&:hover": {backgroundColor: "#465193"}}} onClick={() => handleEdit(params.row)}><Icon sx={{fontSize: "md"}}>edit</Icon></IconButton> },
+        {field: 'edit', headerName: 'Editar', width: 60, renderCell: (params) => <IconButton style={{ backgroundColor: "#515ea6", color: "white", height: "30px", width: "30px", borderRadius: "4px", "&:hover": {backgroundColor: "#465193"}}} onClick={() => handleEdit(params.row)}><Icon sx={{fontSize: "md"}}>edit</Icon></IconButton> }
     ]
 
     useEffect(() => {
