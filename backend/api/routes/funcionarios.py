@@ -31,7 +31,9 @@ def cadastro_funcionario(
     db : Session = Depends(get_db_session),
     empresa: str = None
     ):
+    print(empresa)
     empresa_id = verificar_empresa(empresa, db)
+    print(empresa_id)
     funcio_repo = FuncionarioRepo(dbsession=db)
     funcio_repo.register_funcionario(funcionario=funcionario, empresa_id=empresa_id)
 
@@ -43,7 +45,7 @@ def cadastro_funcionario(
 @funcio_router.put("/{id}/atualizar/")
 def atualizar_funcionários(id:int, funcionario_update: Funcionario ,db:Session = Depends(get_db_session), empresa: str = None):
     funcionario_repo = FuncionarioRepo(dbsession=db)
-    print(verificar_empresa(empresa=empresa, db=db))
+    
     funcionario_repo.update_funcionario(
         id_funcionario=id,
         value_update= funcionario_update.__dict__,

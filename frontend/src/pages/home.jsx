@@ -4,7 +4,7 @@ import { TabelaFuncionarios } from "../components/Table";
 
 import "../styles/global.css"
 import { Fab, Grid2, Icon, Paper, Tooltip, Typography } from "@mui/material";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import EmployeeModal from "../components/EmployeeModal";
 
 const inputFields = [
@@ -38,7 +38,24 @@ const handleCpfMask = (e) => {
 function Funcionarios(){
     const location = useLocation()
     const [open, setOpen] = useState(false);
-    const { empresa } = useParams();
+    const { empresa } = useParams(); //O nome da empresa recebido pela URL
+    const [ empresaId, setEmpresaId ] = useState(null);
+
+    useEffect(() => {
+        const fetchEmpresaId = async () => {
+            try {
+                const response = await axios.get(`http://localhost:8000/empresas/${empresa}`);
+                console.log("ID da empresa:", response.data.id_empresa);
+                setEmpresaId(response.data.id_empresa)
+                
+            } catch (error) {
+                console.error("Erro ao buscar ID da empresa:", error);
+            }
+        };
+        
+        fetchEmpresaId();
+    }, [empresa]);
+
 
     const handleAdd = () => {
         setOpen(true);
@@ -110,7 +127,7 @@ function Funcionarios(){
                 </section>
                 <TabelaFuncionarios inputFields={inputFields} handleCpfMask={handleCpfMask} empresa={empresa} />
             </main>
-            <EmployeeModal open={open} handleClose={handleClose} inputFields={inputFields} handleCpfMask={handleCpfMask} empresa={empresa} />
+            <EmployeeModal open={open} handleClose={handleClose} inputFields={inputFields} handleCpfMask={handleCpfMask} empresa={empresa} empresa_id={empresaId} />
         </div>
     )
 }

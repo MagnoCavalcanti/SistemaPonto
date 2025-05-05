@@ -1,7 +1,7 @@
 import { Dialog, DialogTitle, DialogContent, DialogActions, TextField, Button, Grid2 } from '@mui/material';
 import { useEffect, useState } from 'react';
 
-const EmployeeModal = ({ open, handleClose, inputFields, handleCpfMask, empresa }) => {
+const EmployeeModal = ({ open, handleClose, inputFields, handleCpfMask, empresa, empresa_id }) => {
     const [focusedInput, setFocusedInput] = useState(null);
     const [errorMessages, setErrorMessages] = useState('');
     const [empresas, setEmpresas] = useState([]);
@@ -21,11 +21,18 @@ const EmployeeModal = ({ open, handleClose, inputFields, handleCpfMask, empresa 
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log(formData);
+
+        formData.empresa_id = empresa_id;
         
+        console.log("Dados enviados:", formData);
         //usando a biblioteca Axios para fazer uma requisição POST para o backend
         try {
-            await axios.post(`http://localhost:8000/${empresa}/funcionarios/cadastro`, formData);
+            
+            await axios.post(`http://localhost:8000/${empresa}/funcionarios/cadastro`, formData, {
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
             handleClose();
             window.location.reload();
         }
@@ -70,7 +77,8 @@ const EmployeeModal = ({ open, handleClose, inputFields, handleCpfMask, empresa 
                                         >
                                             
                                             {/* Adicione opções aqui, por exemplo: */}
-                                            <option value=""  selected disabled>{empresa}</option>
+                                            <option value="" selected disabled>Empresa</option>
+                                            <option value=""  >{empresa}</option>
                                             
                                         </select>
                                     ) : (

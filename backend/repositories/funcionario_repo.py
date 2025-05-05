@@ -25,7 +25,7 @@ class FuncionarioRepo:
             nome=funcionario.nome,
             matricula=funcionario.matricula,
             pis=funcionario.pis,
-            empresa_id=funcionario.empresa_id,
+            empresa_id= empresa_id,
             funcao=funcionario.funcao,
             grupo=funcionario.grupo,
             cpf=funcionario.cpf

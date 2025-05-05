@@ -9,10 +9,12 @@ absolut_path = os.path.abspath(os.curdir)
 sys.path.insert(0, absolut_path)
 
 from backend.repositories.empresa_repo import EmpresaRepositorio
-from backend.database.seed_data import get_db_session
+from backend.database.seed_data import get_db_session, verificar_empresa
 from backend.schemas.empresas import Empresa
 
 empresa_router = APIRouter(prefix="/empresas")
+
+
 
 @empresa_router.get("/")
 def listar_empresas(db: Session = Depends(get_db_session)):
@@ -20,6 +22,11 @@ def listar_empresas(db: Session = Depends(get_db_session)):
     empresas = empresa_repo.read_empresa()
 
     return empresas
+
+@empresa_router.get("/{empresa}")
+def verificar_id_empresa(empresa: str, db: Session = Depends(get_db_session)):
+    id_empresa = verificar_empresa(empresa, db)
+    return {"id_empresa": id_empresa, "empresa": empresa, "msg": "sucess"}
 
 @empresa_router.post("/cadastrar")
 def cadastro_empresas(empresa: Empresa, db: Session = Depends(get_db_session)):

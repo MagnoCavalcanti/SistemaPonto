@@ -29,11 +29,12 @@ export const TabelaFuncionarios = ({ inputFields, handleCpfMask, empresa }) => {
       };
 
     const handleUpdate = async () => {
+        console.log(formData);
         // Implementa a lógica de atualização das linhas selecionadas
         await axios.put(`http://localhost:8000/${empresa}/funcionarios/${selectedRow.id}/atualizar`, formData);
         console.log('Atualizar:', selectedRow);
         setOpenModal(false);
-        window.location.reload();
+        //window.location.reload();
     };
 
     const handleInputChange = (e) =>{
@@ -130,7 +131,6 @@ export const TabelaFuncionarios = ({ inputFields, handleCpfMask, empresa }) => {
                                 <div className="input-container">
                                     {field.type === 'select' ? (
                                         <select
-                                            required
                                             name={field.nome}
                                             className={field.label}
                                             onChange={handleInputChange}
@@ -148,7 +148,8 @@ export const TabelaFuncionarios = ({ inputFields, handleCpfMask, empresa }) => {
                                                 outline: "none",
                                             }}
                                         >
-                                            <option value="" selected disabled >{empresa}</option>
+                                            <option value="" selected >{empresa}</option>
+                                            
                                             
                                         </select>
                                     ) : (
