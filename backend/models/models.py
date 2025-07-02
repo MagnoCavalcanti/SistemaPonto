@@ -35,7 +35,8 @@ class Funcionario(Base):
 
         if not re.match(pattern, cpf):
             raise ValueError("CPF inválido. Use o formato XXX.XXX.XXX-XX.")
-
+        
+        return cpf
    
 
 

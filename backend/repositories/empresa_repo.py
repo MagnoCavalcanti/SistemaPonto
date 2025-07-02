@@ -61,6 +61,12 @@ class EmpresaRepositorio:
     def search_empresa(self, empresa_nome: int):
         try:
             empresa_db = self.db.query(Empresa_models).filter_by(nome=empresa_nome).first()
+            
+            if not empresa_db:
+                raise HTTPException(
+                    status_code=status.HTTP_404_NOT_FOUND,
+                    detail="Empresa não encontrada!"
+                )
             return empresa_db
         except Exception as e:
             self.db.rollback()
