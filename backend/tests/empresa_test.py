@@ -8,7 +8,7 @@ import sys
 absolut_path = os.path.abspath(os.curdir)
 sys.path.insert(0, absolut_path)
 
-from backend.services.empresa_repo import EmpresaRepositorio  
+from backend.repositories.empresa_repo import EmpresaRepositorio  
 from backend.models.models import Empresa as Empresa_models
 
 def test_register_empresa():
@@ -17,7 +17,7 @@ def test_register_empresa():
     repo = EmpresaRepositorio(mock_session)
 
     # Cria um mock para representar uma empresa
-    nova_empresa = MagicMock(nome="Empresa Teste", cnpj="12345678000123")
+    nova_empresa = MagicMock(nome="Empresa Teste", cnpj="55.555.555/0001-66")
 
     # Teste de registro bem-sucedido
     repo.register_empresa(nova_empresa)
@@ -26,7 +26,7 @@ def test_register_empresa():
     chamado = mock_session.add.call_args[0][0]
     assert isinstance(chamado, Empresa_models)
     assert chamado.nome == "Empresa Teste"
-    assert chamado.cnpj == "12345678000123"
+    assert chamado.cnpj ==  "55.555.555/0001-66"
 
     # Verifica se o commit foi chamado
     mock_session.commit.assert_called_once()
@@ -67,7 +67,7 @@ def test_update_empresa():
 
     # Simula um caso de atualização bem-sucedida
     mock_session.query().filter_by().update.return_value = 1
-    repo.update_empresa(1, {"nome": "Empresa Atualizada", "cnpj": "44444444000444"})
+    repo.update_empresa(1, {"nome": "Empresa Atualizada", "cnpj": "55.555.555/0001-66"})
     mock_session.commit.assert_called_once()
 
     # Simula um caso de falha na atualização (IntegrityError)
