@@ -39,10 +39,10 @@ class FuncionarioRepo:
         try:
             self.db.add(funcionario_model)
             self.db.commit()
-        except IntegrityError:
+        except Exception as e:
             raise HTTPException(
-                status_code=status.HTTP_400_BAD_REQUEST,
-                detail='Funcionário já existente!'
+                status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+                detail=str(e)
             )
     def list_funcionario(self, empresa_id: int):
         try:
