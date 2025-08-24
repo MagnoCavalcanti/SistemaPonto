@@ -80,4 +80,16 @@ class RelogioRepository:
                 status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
                 detail="Erro no servidor!"
             )
+    
+    def rep_filter_by_id(self, id: int):
+        try:
+            relogio_db = self.db.query(RelogioModels).filter_by(id=id).first()
+            return relogio_db
+        except IntegrityError as e:
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail="Erro ao buscar REP: {e}"
+            )
+        
+
         
