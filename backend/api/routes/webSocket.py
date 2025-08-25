@@ -1,41 +1,15 @@
 from fastapi import APIRouter, WebSocket, WebSocketDisconnect
 from datetime import datetime
 
+import os
+import sys
+
+absolut_path = os.path.abspath(os.curdir)
+sys.path.insert(0, absolut_path)
+
+from backend.services.managerWS import ConnectionManager
 
 desktop_router = APIRouter()
-
-class ConnectionManager:
-    def __init__(self) -> None:
-        self.active_connections: list[WebSocket] = []
-        
-    async def connection(self, empresa: str, websocket: WebSocket) -> None:
-        await websocket.accept()
-        self.active_connections.append(websocket)
-        await self.send_personal_message(
-            message="Conexão estabelecida!",
-            empresa=empresa,
-            websocket= websocket
-            )
-    
-    def disconnection(self, websocket: WebSocket) -> None:
-        if websocket in self.active_connections:
-            self.active_connections.remove(websocket)
-
-    async def send_personal_message(self, message: str, empresa: str, websocket: WebSocket) -> None:
-        messageJson = {
-            "message": message,
-            "client": empresa,
-            "timestamp": datetime.now().isoformat()
-        }
-        try:
-            await websocket.send_json(messageJson)
-        except Exception as e:
-            print(f"Erro ao enviar mensagem: {e}")
-            self.disconnection(websocket)
-
-    async def broadcast(self, message: str) -> None:
-        for connection in self.active_connections:
-            await connection.send_text(message)
 
 
 manager = ConnectionManager()
