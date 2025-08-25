@@ -9,12 +9,12 @@ sys.path.insert(0, absolut_path)
 
 from backend.services.managerWS import ConnectionManager
 
-desktop_router = APIRouter()
+desktop_router = APIRouter(prefix="/ws")
 
 
 manager = ConnectionManager()
 
-@desktop_router.websocket("/ws/{empresa}")
+@desktop_router.websocket("/{empresa}")
 async def websocket_endpoint(websocket: WebSocket, empresa: str):
     await manager.connection(empresa, websocket)
     try:
