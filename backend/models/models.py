@@ -71,6 +71,8 @@ class Relogio(Base):
     __tablename__ = "relogios"
     id = Column(Integer, autoincrement=True, primary_key=True)
     nome = Column(String, nullable=False, unique=True)
+    user = Column(String, nullable=False)
+    senha = Column(String, nullable=False)
     ip = Column(String, nullable=False, unique=True)
     porta = Column(Integer, nullable=False)
     empresa_id = Column(Integer, ForeignKey("empresas.id"), nullable=False)
