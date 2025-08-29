@@ -34,6 +34,8 @@ class RelogioRepository:
             )
         relogio_models = RelogioModels(
             nome=relogio.nome,
+            user=relogio.user,
+            senha=relogio.senha,
             ip=relogio.ip,
             porta=relogio.porta,
             empresa_id=relogio.empresa_id
@@ -65,6 +67,8 @@ class RelogioRepository:
                 detail="Relogio não encontrado!"
             )
         relogio_db.nome = relogio.nome
+        relogio_db.user = relogio.user
+        relogio_db.senha = relogio.senha
         relogio_db.ip = relogio.ip
         relogio_db.porta = relogio.porta
         relogio_db.empresa_id = relogio.empresa_id
