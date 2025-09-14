@@ -57,6 +57,8 @@ async def requisitar_registros(
     relogio_db = relogio_repo.rep_filter_by_id(relogio_id)
     relogio = {
         "nome": relogio_db.nome,
+        "user": relogio_db.user,
+        "senha": relogio_db.senha,
         "ip": relogio_db.ip,
         "porta": relogio_db.porta,
         "empresa_id": relogio_db.empresa_id
