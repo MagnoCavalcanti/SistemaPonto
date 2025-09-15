@@ -57,11 +57,12 @@ class Empresa(Base):
                 raise ValueError("CNPJ inválido. Use o formato XX.XXX.XXX/XXXX-XX.")
 
             return cnpj
+
 class RegistroPonto(Base):
 
-    __tablename__= "registros_de_pontos"
-    id = Column(Integer, autoincrement=True, primary_key=True)
-    id_funcionario = Column(Integer, ForeignKey("funcionarios.id"), nullable=False)
+    __tablename__= "registros"
+    nsr = Column(Integer, autoincrement=True, primary_key=True)
+    cpf_funcionario = Column(String, ForeignKey("funcionarios.cpf"), nullable=False)
     data = Column(Date, nullable=False)
     hora = Column(Time, nullable=False)
     tipo = Column(Enum("Entrada", "Saída", "Início do Intervalo", "Fim do Intervalo"), nullable=False)
