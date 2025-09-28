@@ -6,7 +6,7 @@ import sys
 absolut_path = os.path.abspath(os.curdir)
 sys.path.insert(0, absolut_path)
 
-from backend.schemas.relogio import Relogio
+from backend.schemas import Relogio, DictDesktop
 
 class ConnectionManager:
     def __init__(self) -> None:
@@ -27,12 +27,11 @@ class ConnectionManager:
 
     async def send_personal_message(self, message: str, empresa: str, websocket: WebSocket) -> None:
         messageJson = {
-            "message": message,
-            "client": empresa,
-            "timestamp": datetime.now().isoformat()
+            "client": empresa
         }
         try:
-            await websocket.send_json(messageJson)
+            msg = DictDesktop(type=message, timestamp=datetime.now().isoformat(), payload=messageJson)
+            await websocket.send_json(msg.to_json())
         except Exception as e:
             print(f"Erro ao enviar mensagem: {e}")
             
