@@ -23,13 +23,7 @@ class FuncionarioRepo:
             funcionario.cpf = None # Não pode ser None
             
         funcionario_model = Funcionario_models(
-            nome=funcionario.nome,
-            matricula=funcionario.matricula,
-            pis=funcionario.pis,
-            empresa_id= empresa_id,
-            funcao=funcionario.funcao,
-            grupo=funcionario.grupo,
-            cpf=funcionario.cpf
+            **funcionario.__dict__
         )
         if funcionario.empresa_id != empresa_id:
             raise HTTPException(
@@ -79,27 +73,21 @@ class FuncionarioRepo:
                 detail=f"Erro interno: {e}"
             )
         
-    def bulk_insert_funcionario(self, list_funcionarios: list[Funcionario], empresa_id: int):
+    def bulk_insert_funcionario(self, list_funcionarios: list[dict], empresa_id: int):
         funcionarios_db = []
         for funcionario in list_funcionarios:
             # valida se o funcionário pertence à mesma empresa
-            if getattr(funcionario, "empresa_id", empresa_id) != empresa_id:
+            if funcionario['empresa_id'] != empresa_id:
                 raise HTTPException(
                     status_code=status.HTTP_404_NOT_FOUND,
                     detail="Empresa não encontrada para um dos funcionários!"
                 )
             # normaliza CPF (opcional)
-            if funcionario.cpf == "XXX.XXX.XXX-XX":
+            if funcionario['cpf'] == "XXX.XXX.XXX-XX":
                 funcionario.cpf = None
 
             funcionario_db = Funcionario_models(
-                nome=funcionario.nome,
-                matricula=funcionario.matricula,
-                pis=funcionario.pis,
-                empresa_id=empresa_id,
-                funcao=funcionario.funcao,
-                grupo=funcionario.grupo,
-                cpf=funcionario.cpf
+                **funcionario
             )
             funcionarios_db.append(funcionario_db)
 
