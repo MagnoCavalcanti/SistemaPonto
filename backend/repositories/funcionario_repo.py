@@ -1,6 +1,7 @@
 from sqlalchemy.orm import Session
 from sqlalchemy.exc import IntegrityError
 from fastapi import status, HTTPException
+from datetime import datetime
 
 import os
 import sys
@@ -8,7 +9,7 @@ import sys
 absolut_path = os.path.abspath(os.curdir)
 sys.path.insert(0, absolut_path)
 
-from backend.schemas import Funcionario
+from backend.schemas import Funcionario, DictDesktop
 from backend.models import Funcionario as Funcionario_models
 
 class FuncionarioRepo:
@@ -76,4 +77,47 @@ class FuncionarioRepo:
             raise HTTPException(
                 status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
                 detail=f"Erro interno: {e}"
+            )
+        
+    def bulk_insert_funcionario(self, list_funcionarios: list[Funcionario], empresa_id: int):
+        funcionarios_db = []
+        for funcionario in list_funcionarios:
+            # valida se o funcionário pertence à mesma empresa
+            if getattr(funcionario, "empresa_id", empresa_id) != empresa_id:
+                raise HTTPException(
+                    status_code=status.HTTP_404_NOT_FOUND,
+                    detail="Empresa não encontrada para um dos funcionários!"
+                )
+            # normaliza CPF (opcional)
+            if funcionario.cpf == "XXX.XXX.XXX-XX":
+                funcionario.cpf = None
+
+            funcionario_db = Funcionario_models(
+                nome=funcionario.nome,
+                matricula=funcionario.matricula,
+                pis=funcionario.pis,
+                empresa_id=empresa_id,
+                funcao=funcionario.funcao,
+                grupo=funcionario.grupo,
+                cpf=funcionario.cpf
+            )
+            funcionarios_db.append(funcionario_db)
+
+        try:
+            # add_all preserva comportamento ORM (relacionamentos, eventos)
+            self.db.add_all(funcionarios_db)
+            self.db.commit()
+            response = DictDesktop(type="success_created", timestamp=datetime.now().isoformat(), payload={"status": "201"})
+            return 
+        except IntegrityError as e:
+            self.db.rollback()
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail=f"Erro de integridade: {e}"
+            )
+        except Exception as e:
+            self.db.rollback()
+            raise HTTPException(
+                status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+                detail=str(e)
             )
