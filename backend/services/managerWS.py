@@ -53,6 +53,16 @@ class ConnectionManager:
                 await websocket.send_json(message)
                 return True
             except Exception as e:
-                print(f"Erroa ao enviar comando: {e}")
-                
+                print(f"Erro ao enviar comando: {e}")
+
+    async def send_exception(self, websocket: WebSocket, message: str):
+        if websocket in self.active_connections.values():
+            try:
+                payload = { "message": message}
+                exception_message = DictDesktop(type="error", timestamp=datetime.now().isoformat(), payload=payload)
+                json_exception = exception_message.to_json()
+
+                await websocket.send_json(json_exception)
+            except Exception as e:
+                print(f"Erro inesperado ao lançar a exception: {e}")
         
