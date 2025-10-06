@@ -95,8 +95,7 @@ class FuncionarioRepo:
             # add_all preserva comportamento ORM (relacionamentos, eventos)
             self.db.add_all(funcionarios_db)
             self.db.commit()
-            response = DictDesktop(type="success_created", timestamp=datetime.now().isoformat(), payload={"status": "201"})
-            return 
+            
         except IntegrityError as e:
             self.db.rollback()
             raise HTTPException(
