@@ -1,5 +1,6 @@
 from sqlalchemy import Column, Integer, String, ForeignKey, Date, Time, DateTime, Enum, CheckConstraint
 from sqlalchemy.orm import validates
+from datetime import datetime
 import re
 
 
@@ -63,9 +64,22 @@ class RegistroPonto(Base):
     __tablename__= "registros"
     nsr = Column(Integer, autoincrement=True, primary_key=True)
     cpf_funcionario = Column(String, ForeignKey("funcionarios.cpf"), nullable=False)
+    empresa_id = Column(Integer, ForeignKey("empresas.id"), nullable=False)    
     data = Column(Date, nullable=False)
     hora = Column(Time, nullable=False)
-    tipo = Column(Enum("Entrada", "Saída", "Início do Intervalo", "Fim do Intervalo"), nullable=False)
+    tipo = Column(Enum("Entrada", "Saída"), nullable=False)
+
+    @validates("data")
+    def validate_data(self, key, value):
+        if isinstance(value, str):
+            return datetime.strptime(value, "%Y-%m-%d").date()
+        return value
+
+    @validates("hora")
+    def validate_hora(self, key, value):
+        if isinstance(value, str):
+            return datetime.strptime(value, "%H:%M:%S").time()
+        return value
     
 
 class Relogio(Base):
