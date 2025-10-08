@@ -14,7 +14,6 @@ class UserModel(Base):
     id = Column('id',Integer, autoincrement=True, primary_key=True)
     username = Column('username', String, nullable=False, unique=True)
     password = Column('password', String, nullable=False)
-    email = Column('email', String, nullable=False, unique=True)
 
 
 class Funcionario(Base):
