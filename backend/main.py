@@ -1,7 +1,7 @@
 from fastapi import FastAPI, Depends
 from fastapi.middleware.cors import CORSMiddleware
 
-from .database.seed_data import get_current_user
+from .services import get_current_user
 from .api import auth_router, empresa_router, funcio_router, ponto_router, pdf_router, relogios_router, desktop_router
 
 origins = "http://localhost:5173"

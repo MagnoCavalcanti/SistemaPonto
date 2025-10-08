@@ -8,8 +8,8 @@ import sys
 absolut_path = os.path.abspath(os.curdir)
 sys.path.insert(0, absolut_path)
 
-from backend.services import PDFGenerator_Repo
-from backend.database.seed_data import get_db_session, verificar_empresa
+from backend.services import PDFGenerator_Repo, verificar_empresa
+from backend.database.seed_data import get_db_session
 
 pdf_router = APIRouter(prefix="/{empresa}/pdf")
 
