@@ -13,7 +13,7 @@ from backend.database.seed_data import get_db_session
 from backend.schemas import RegistroPonto
 from .webSocket import manager
 
-ponto_router = APIRouter(prefix="{empresa}/ponto")
+ponto_router = APIRouter(prefix="/{empresa}/ponto")
 
 @ponto_router.post("/registro")
 def registrar_ponto(ponto: RegistroPonto,db: Session = Depends(get_db_session)):
