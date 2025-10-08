@@ -4,7 +4,9 @@ from re import compile
 
 class RegistroPonto(BaseModel):
 
-    funcionario_id: int = Field(..., description="ID do funcionário que registrou o ponto")
+    nsr: int = Field(..., description="Identificador do registro")
+    cpf_funcionario: str = Field(..., description="CPF do funcionário que registrou o ponto")
+    empresa_id: int = Field(..., description="Identificador da empresa ao qual o funcionário faz parte")
     data: date = Field(..., description="Data do registro")
     hora: time = Field(..., description="Horário exato do registro")
     tipo: str = Field(..., description="Tipo do registro")
