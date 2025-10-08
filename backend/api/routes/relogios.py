@@ -7,9 +7,10 @@ import sys
 absolut_path = os.path.abspath(os.curdir)
 sys.path.insert(0, absolut_path)
 
-from backend.database.seed_data import get_db_session, verificar_empresa
-from backend.repositories.relogio_repo import RelogioRepository
-from backend.schemas.relogio import Relogio
+from backend.database.seed_data import get_db_session
+from backend.repositories import RelogioRepository
+from backend.schemas import Relogio
+from backend.services import verificar_empresa
 
 
 

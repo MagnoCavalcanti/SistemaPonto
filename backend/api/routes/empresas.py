@@ -8,9 +8,10 @@ import sys
 absolut_path = os.path.abspath(os.curdir)
 sys.path.insert(0, absolut_path)
 
-from backend.repositories.empresa_repo import EmpresaRepositorio
-from backend.database.seed_data import get_db_session, verificar_empresa
-from backend.schemas.empresas import Empresa
+from backend.repositories import EmpresaRepositorio
+from backend.database.seed_data import get_db_session
+from backend.schemas import Empresa
+from backend.services import verificar_empresa
 
 empresa_router = APIRouter(prefix="/empresas")
 

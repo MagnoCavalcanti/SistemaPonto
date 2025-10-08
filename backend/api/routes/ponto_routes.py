@@ -11,7 +11,7 @@ sys.path.insert(0, absolut_path)
 from backend.repositories import PontoRepo, RelogioRepository
 from backend.database.seed_data import get_db_session
 from backend.schemas import RegistroPonto
-from backend.api.routes.webSocket import manager
+from .webSocket import manager
 
 ponto_router = APIRouter(prefix="{empresa}/ponto")
 

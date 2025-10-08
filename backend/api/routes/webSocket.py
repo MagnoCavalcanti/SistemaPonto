@@ -8,8 +8,8 @@ import sys
 absolut_path = os.path.abspath(os.curdir)
 sys.path.insert(0, absolut_path)
 
-from backend.services.managerWS import ConnectionManager
-from backend.schemas import DictDesktop, Funcionario
+from backend.services import ConnectionManager
+from backend.schemas import DictDesktop
 from backend.repositories import FuncionarioRepo, PontoRepo
 from backend.database.db_connection import Session
 from backend.database.seed_data import verificar_empresa

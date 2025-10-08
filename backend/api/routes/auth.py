@@ -10,9 +10,10 @@ import sys
 absolut_path = os.path.abspath(os.curdir)
 sys.path.insert(0, absolut_path)
 
-from backend.schemas.user import User
-from backend.database.seed_data import get_db_session, get_current_user
-from backend.repositories.auth_user import UserUseCases
+from backend.schemas import User
+from backend.database.seed_data import get_db_session
+from backend.repositories import UserUseCases
+from backend.services import get_current_user
 
 auth_router = APIRouter()
 
