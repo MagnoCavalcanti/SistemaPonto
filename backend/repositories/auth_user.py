@@ -31,7 +31,6 @@ class UserUseCases:
         user_model = UserModel(
             username= user.username,
             password= crypt_context.hash(user.password),
-            email= user.email 
         )
         try:
             self.dbsession.add(user_model)
