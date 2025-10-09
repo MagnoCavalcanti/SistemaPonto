@@ -67,7 +67,7 @@ class RegistroPonto(Base):
     relogio_id = Column(Integer, ForeignKey("relogios.id"), nullable=False)  
     data = Column(Date, nullable=False)
     hora = Column(Time, nullable=False)
-    tipo = Column(Enum("Entrada", "Saída"), nullable=False)
+    tipo = Column(Enum("Entrada", "Saída", name="tipo_registro"), nullable=False)
 
     __table_args__ = (
         UniqueConstraint('relogio_id', 'nsr', name='unique_device_nsr'),
