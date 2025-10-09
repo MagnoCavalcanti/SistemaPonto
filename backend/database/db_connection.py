@@ -4,7 +4,7 @@ from sqlalchemy.orm import sessionmaker
 
 
 
-DB_URL = config('DB_URL_TEST')
+DB_URL = config('DB_URL')
 
 
 
