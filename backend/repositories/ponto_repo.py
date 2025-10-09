@@ -20,10 +20,7 @@ class PontoRepo:
 
     def Bater_Ponto(self, ponto: RegistroPonto):
         ponto_model = Registro_models(
-            id_funcionario=ponto.funcionario_id,
-            data=ponto.data,
-            hora=ponto.hora,
-            tipo=ponto.tipo
+            **ponto.model_dump(exclude_unset=True)
         )
 
         try:
