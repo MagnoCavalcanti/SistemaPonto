@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, ForeignKey, Date, Time, DateTime, Enum, CheckConstraint, UniqueConstraint
+from sqlalchemy import Column, Integer, String, ForeignKey, Date, Time, Enum, CheckConstraint, UniqueConstraint
 from sqlalchemy.orm import validates
 from datetime import datetime
 import re
@@ -67,7 +67,7 @@ class RegistroPonto(Base):
     relogio_id = Column(Integer, ForeignKey("relogios.id"), nullable=False)  
     data = Column(Date, nullable=False)
     hora = Column(Time, nullable=False)
-    tipo = Column(Enum("Entrada", "Saída", name="tipo_registro"), nullable=False)
+    tipo = Column(String, Enum("Entrada", "Saída", name="tipo_registro"), nullable=False)
 
     __table_args__ = (
         UniqueConstraint('relogio_id', 'nsr', name='unique_device_nsr'),
